@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workshop Desk | Ivory Digital</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f4f6;color:#191d23;font:16px/1.5 system-ui,sans-serif}main{width:min(1050px,calc(100% - 32px));margin:32px auto 64px}.narrow{max-width:470px}.card{background:white;border:1px solid #dfe3e8;border-radius:12px;padding:clamp(16px,4vw,26px);margin-bottom:16px}h1,h2,h3,p{margin:0 0 12px}h1{font-size:clamp(26px,5vw,38px)}h2{font-size:22px}h3{font-size:17px}.brand{font-weight:750;color:#983c16}.muted{color:#525d69}.error{color:#a41e1e}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:12px;margin-bottom:12px}label{display:grid;gap:4px;font-weight:600}input,select,button{font:inherit;border:1px solid #b9c1ca;border-radius:7px;padding:8px 11px;min-width:0}button{cursor:pointer;background:#fff;color:inherit}button:disabled{opacity:.6;cursor:wait}.primary{background:#983c16;border-color:#983c16;color:white}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.actions a{padding:7px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.badge{font-weight:700;background:#edf1f5;border-radius:999px;padding:3px 9px;white-space:nowrap}a{color:#843510;overflow-wrap:anywhere}details{margin-top:14px}summary{cursor:pointer;font-weight:700}dl{display:grid;grid-template-columns:1fr auto;gap:6px 16px}dd{margin:0}#link input{width:100%;margin-bottom:10px}.amount{text-align:right}
+</style>
+</head>
+<body><main id="app"><p>Loading Workshop Desk…</p></main>
+<script>
+'use strict';
+const app=document.querySelector('#app');
+const mode=location.pathname;
+const token=location.hash.slice(1);
+const money=new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'});
+const dateFormat=new Intl.DateTimeFormat('en-GB',{dateStyle:'medium',timeZone:'Europe/London'});
+const dayKey=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/London'});
+const dateText=value=>dateFormat.format(typeof value==='number'?new Date((value-1)*1000):new Date(value+'T12:00:00Z'));
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const input=(label,name,attrs='')=>'<label>'+label+'<input name="'+name+'" '+attrs+'></label>';
+const button=(name,value,primary=false)=>'<button value="'+value+'"'+(primary?' class="primary"':'')+'>'+name+'</button>';
+const header=title=>'<p class="brand">Workshop Desk · Ivory Digital</p><h1>'+title+'</h1>';
+const error=(el,message)=>{el.querySelector('.error').textContent=message};
+const errorLine='<p class="error" role="alert"></p>';
+const formData=form=>Object.fromEntries(new FormData(form));
+
+async function api(path,data){
+ const res=await fetch('/api/'+path,data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+ const result=await res.json();
+ if(!res.ok)throw Object.assign(new Error(result.error),{status:res.status});
+ return result;
+}
+
+function bind(form,action){
+ form.onsubmit=async event=>{
+  event.preventDefault();
+  const submit=event.submitter||form.querySelector('button[type=submit],button:not([type])');
+  if(submit.disabled)return;
+  submit.disabled=true;
+  error(form,'');
+  try{await action(formData(form),submit.value)}
+  catch(err){error(form,err.message)}
+  finally{submit.disabled=false}
+ };
+}
+
+function login(message=''){
+ const admin=mode==='/admin';
+ app.className='narrow';
+ app.innerHTML='<section class="card">'+header(admin?'Superadmin sign-in':'Garage sign-in')+
+ (message?'<p class="muted">'+esc(message)+'</p>':'')+
+ '<form><div class="grid">'+input('Email','email','type="email" autocomplete="username" required maxlength="200"'+(admin?' value="admin@ivorydigital.uk"':''))+
+ input('Password','password','type="password" autocomplete="current-password" required maxlength="128"')+'</div>'+errorLine+
+ button('Sign in','login',true)+'</form></section>';
+ bind(app.querySelector('form'),async data=>{
+  await api('login',{...data,admin});
+  if(admin)await dashboard();else await garageLogin();
+ });
+}
+
+async function garageLogin(){
+ let info;
+ try{info=await api('account')}
+ catch(err){if([401,403].includes(err.status)){login();return}throw err}
+ if(info.access==='Active'){location.replace('/staff');return}
+ app.className='narrow';
+ app.innerHTML='<section class="card">'+header(esc(info.name))+'<p>Garage access is '+esc(info.access.toLowerCase())+
+ '. Contact Ivory Digital if you need access restored.</p><button id="logout">Sign out</button>'+errorLine+'</section>';
+ logout();
+}
+
+function logout(){
+ app.querySelector('#logout').onclick=async()=>{
+  try{await api('logout',{});location.replace(mode==='/'?'/':'/admin')}
+  catch(err){error(app,err.message)}
+ };
+}
+
+function setup(){
+ app.className='narrow';
+ app.innerHTML='<section class="card">'+header('Set up your garage account')+
+ '<p>Choose the email address and password you’ll use to sign in.</p><form><div class="grid">'+
+ input('Email','email','type="email" autocomplete="username" required maxlength="200"')+
+ input('Password','password','type="password" autocomplete="new-password" required minlength="8" maxlength="128"')+
+ input('Confirm password','confirm','type="password" autocomplete="new-password" required minlength="8" maxlength="128"')+
+ '</div><p class="muted">Use at least eight characters, including one special character.</p>'+errorLine+
+ button('Create account','setup',true)+'</form></section>';
+ bind(app.querySelector('form'),async data=>{
+  if(!token)throw new Error('Open the full setup link you received from Ivory Digital.');
+  if(data.password!==data.confirm)throw new Error('The passwords do not match.');
+  await api('setup',{token,email:data.email,password:data.password});
+  history.replaceState(null,'',mode);
+  app.innerHTML='<section class="card">'+header('Your account is ready')+'<a href="/">Go to garage sign-in</a></section>';
+ });
+}
+
+function showLink(link){
+ const card=app.querySelector('#link');
+ card.hidden=false;
+ card.querySelector('input').value=link;
+ card.querySelector('button').onclick=async()=>{
+  try{await navigator.clipboard.writeText(link);card.querySelector('[role=status]').textContent='Link copied.'}
+  catch{card.querySelector('input').select();card.querySelector('[role=status]').textContent='Copy the selected link.'}
+ };
+ card.scrollIntoView({block:'nearest'});
+}
+
+function garageCard(g){
+ const history=g.payments.map(p=>'<dt>'+esc(dateText(p.paid_on))+' · through '+esc(dateText(p.through))+
+ (p.reference?' · '+esc(p.reference):'')+'</dt><dd class="amount">'+money.format(p.amount/100)+'</dd>').join('');
+ return '<section class="card" data-slug="'+esc(g.slug)+'"><div class="top"><h2>'+esc(g.name)+'</h2><span class="badge">'+esc(g.access)+'</span></div>'+
+ '<p class="muted">'+esc(g.email||'Owner account pending')+' · '+esc(g.mode)+
+ (g.expires?' · '+(g.mode==='paid'?'Paid through ':'Until ')+esc(dateText(g.expires)):g.mode==='trial'?' · '+g.trial_days+' days from setup':'')+'</p>'+
+ '<p><a href="/book/'+esc(g.slug)+'">Customer booking page</a></p>'+
+ '<form data-action="access"><div class="actions">'+(g.joined?'':button('Generate a new setup link','invite'))+
+ (g.suspended?button('Restore access','restore'):button('Suspend access','suspend'))+'</div>'+errorLine+'</form>'+
+ (g.mode==='trial'?'<form data-action="extend"><div class="grid">'+input('Extra trial days','days','type="number" min="1" max="365" value="7" required')+
+ '</div>'+button('Extend trial','extend')+errorLine+'</form>':'')+
+ '<details><summary>Complimentary access</summary><form data-action="complimentary"><div class="grid">'+
+ input('End date (optional)','expiry','type="date"')+'</div>'+button('Grant complimentary access','complimentary')+errorLine+'</form></details>'+
+ '<details><summary>Payments'+(g.payments.length?' ('+g.payments.length+')':'')+'</summary><form data-action="payment"><div class="grid">'+
+ input('Amount received (£)','amount','type="number" min="0.01" max="100000" step="0.01" required')+
+ input('Payment date','paid_on','type="date" required value="'+dayKey.format(new Date())+'"')+
+ input('Paid through','through','type="date" required')+input('Reference (optional)','reference','maxlength="200"')+
+ '</div>'+button('Record payment','payment',true)+errorLine+'</form>'+
+ (history?'<dl>'+history+'</dl>':'<p class="muted">No payments recorded.</p>')+'</details></section>';
+}
+
+async function dashboard(link){
+ let data;
+ try{data=await api('admin')}
+ catch(err){if([401,403].includes(err.status)){login();return}throw err}
+ app.className='';
+ app.innerHTML='<div class="top">'+header('Superadmin')+'<button id="logout">Sign out</button></div>'+errorLine+
+ '<section class="card"><h2>Add a garage</h2><form id="create"><div class="grid">'+
+ input('Garage name','name','required maxlength="100"')+
+ input('Garage code','slug','required maxlength="60" autocapitalize="none" placeholder="example-garage"')+
+ '<label>Access type<select name="mode"><option value="trial">14-day trial</option><option value="paid">Paid</option><option value="complimentary">Complimentary</option></select></label>'+
+ input('Complimentary end date (optional)','expiry','type="date"')+'</div>'+
+ '<p class="muted">The garage code becomes part of the public booking address.</p>'+button('Create garage and setup link','create',true)+errorLine+'</form></section>'+
+ '<section class="card" id="link" hidden><h2>Private setup link</h2><p>Copy this link and send it to the garage owner. It expires in seven days or after use.</p>'+
+ input('Setup link','link','readonly')+'<button>Copy link</button> <span role="status"></span></section>'+
+ (data.garages.map(garageCard).join('')||'<p class="muted">No garages yet.</p>');
+ logout();
+ const create=app.querySelector('#create');
+ const expiry=create.elements.expiry;
+ expiry.disabled=true;
+ create.elements.mode.onchange=()=>{expiry.disabled=create.elements.mode.value!=='complimentary'};
+ bind(create,async fields=>{const result=await api('admin/create',fields);await dashboard(result.link)});
+ for(const form of app.querySelectorAll('[data-action]')){
+  bind(form,async(fields,action)=>{
+   if(action==='suspend'&&!confirm('Suspend access to this garage?'))return;
+   if(action==='invite'&&!confirm('Replace the previous setup link?'))return;
+   if(action==='extend')fields.days=Number(fields.days);
+   const result=await api('admin/'+action,{...fields,slug:form.closest('[data-slug]').dataset.slug});
+   await dashboard(result.link);
+  });
+ }
+ if(link)showLink(link);
+}
+
+async function approval(){
+ app.className='narrow';
+ const estimate=await api('approval',{token});
+ app.innerHTML='<section class="card">'+header('Review your estimate')+
+ '<p>'+esc(estimate.garage)+' · '+esc(estimate.vehicle)+' · '+esc(estimate.reg)+'</p><dl>'+
+ estimate.lines.map(line=>'<dt>'+esc(line.description)+' × '+esc(line.qty)+'</dt><dd>'+money.format(line.price*line.qty/100)+'</dd>').join('')+
+ '<dt><strong>Total</strong></dt><dd><strong>'+money.format(estimate.total/100)+'</strong></dd></dl>'+
+ '<form><div class="grid">'+input('Your name','name','required maxlength="100" autocomplete="name"')+
+ '</div><div class="actions">'+button('Approve estimate','Approved',true)+button('Decline estimate','Declined')+
+ '</div>'+errorLine+'</form></section>';
+ bind(app.querySelector('form'),async(fields,decision)=>{
+  await api('approval',{token,decision,name:fields.name});
+  history.replaceState(null,'',mode);
+  app.innerHTML='<section class="card">'+header('Decision recorded')+'<p>You '+esc(decision.toLowerCase())+' the estimate. The garage can now see your decision.</p></section>';
+ });
+}
+
+(async()=>{
+ try{
+  if(mode==='/admin')await dashboard();
+  else if(mode==='/setup')setup();
+  else if(mode==='/approval')await approval();
+  else await garageLogin();
+ }catch(err){app.textContent=err.message}
+})();
+</script>
+</body>
+</html>

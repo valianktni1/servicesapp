@@ -1,20 +1,19 @@
 <!doctype html>
-<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Garage Booking Demo | Ivory Digital</title><meta name="description" content="Try an example MOT and garage booking system from Ivory Digital."><meta name="robots" content="noindex, follow">
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workshop Desk | Ivory Digital</title><meta name="description" content="Garage bookings and workshop management from Ivory Digital."><meta name="robots" content="noindex, follow">
 <style>
 :root{--ink:#171A1F;--muted:#58616C;--line:#D9DDE3;--paper:#F5F6F8;--green:#A73B00;--side:#0F1114;--accent:#FF6A00;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 system-ui,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:default}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #A73B00;outline-offset:2px}h1,h2,h3,p{margin:0}h1{font-size:clamp(32px,5vw,49px);letter-spacing:-.065em;line-height:1.03}h2{font-size:22px;letter-spacing:-.035em}small,.muted{color:var(--muted)}.shell{min-height:100vh;display:grid;grid-template-columns:236px minmax(0,1fr)}aside{background:var(--side);color:white;padding:25px 17px;display:flex;flex-direction:column;gap:22px}.brand{display:flex;gap:10px;align-items:center;font-weight:750;letter-spacing:-.025em;font-size:19px}.mark{background:var(--accent);color:var(--side);display:grid;place-items:center;width:36px;height:36px;border-radius:9px;font-size:17px}.side-note{color:#C6CBD1;font-size:12px}.nav{display:grid;gap:5px}.nav button{display:flex;gap:10px;align-items:center;text-align:left;color:#E9EBEE;border:0;background:none;border-radius:7px;padding:10px 12px}.nav button:hover,.nav button[aria-current=true]{background:#313640;color:#fff}.nav svg{width:17px;height:17px}.side-foot{margin-top:auto;border-top:1px solid #383D45;padding-top:15px}.workspace{min-width:0}.top{background:white;border-bottom:1px solid var(--line);min-height:67px;padding:12px clamp(16px,4vw,45px);display:flex;align-items:center;justify-content:space-between;gap:12px}.top strong{font-size:14px}.top a{font-weight:650;font-size:13px}.inner{max-width:1450px;margin:auto;padding:35px clamp(16px,4vw,45px)}.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--green);margin-bottom:9px}.head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:24px}.head p:not(.eyebrow){margin-top:10px;color:var(--muted)}.button{border:1px solid var(--line);background:white;border-radius:8px;padding:9px 13px;color:var(--ink);font-weight:650;text-decoration:none;display:inline-block;white-space:nowrap}.primary{background:var(--accent);border-color:var(--accent);color:var(--side)}.button:hover{filter:brightness(.95)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:12px}.stat{padding:15px 16px}.stat:first-child{background:#FFF0E5}.stat strong{display:block;font-size:30px;line-height:1.2;margin:6px 0 3px;letter-spacing:-.045em}.stat span{font-weight:700;font-size:13px}.bar{padding:15px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap}input,select,textarea{width:100%;border:1px solid #BBC2CB;border-radius:7px;background:white;color:var(--ink);padding:9px 10px}textarea{resize:vertical;min-height:80px}.controls input,.controls select{width:auto;max-width:100%}.search{min-width:155px}.table{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left}th{background:#F5F6F8;color:#525C68;font-size:11px;letter-spacing:.06em;text-transform:uppercase}td,th{padding:12px 14px;border-top:1px solid var(--line);vertical-align:middle}td small{display:block}.plate{display:inline-block;background:#f8e69f;border:1px solid #e5d180;border-radius:4px;font-size:12px;font-weight:800;letter-spacing:.07em;padding:2px 6px;white-space:nowrap}.pill{display:inline-block;border-radius:20px;background:#e9eee8;color:#36473c;padding:3px 8px;font-size:11px;font-weight:750;white-space:nowrap}.pill.Requested,.pill.Awaiting{background:#f9edcd;color:#634507}.pill.In{background:#e4ecf8;color:#25466f}.pill.Ready,.pill.Completed,.pill.Confirmed{background:#e5f1e1;color:#295336}.pill.Cancelled,.pill.No-show{background:#f6e6e1;color:#803f30}.empty{padding:25px;color:var(--muted)}.split{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}.pad{padding:18px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.fields label,.stack label{display:block;font-weight:650;font-size:13px}.fields input,.fields select,.fields textarea,.stack input,.stack select,.stack textarea{margin-top:4px}.wide{grid-column:1/-1}.stack{display:grid;gap:12px}.public{max-width:970px;margin:auto;padding:35px 18px 55px}.public-nav{background:var(--side);color:#fff}.public-nav .top{background:none;border:0;max-width:970px;margin:auto;padding:13px 18px}.public-intro{padding:26px;background:#FFF0E5;border-radius:13px;margin-bottom:18px}.public-intro p:last-child{margin-top:10px;color:var(--muted)}.services{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{position:relative;display:block;border:1px solid var(--line);padding:10px;border-radius:8px;cursor:pointer}.choice:has(input:checked){border-color:var(--green);background:#FFF0E5}.choice input{width:auto;margin-right:5px}.choice small{display:block;margin:2px 0 0 21px}.summary{background:#F5F6F8;border:1px solid #D9DDE3;border-radius:9px;padding:13px}.step{color:var(--green);font-size:13px;font-weight:750;margin-bottom:5px}dialog{border:1px solid var(--line);border-radius:13px;padding:0;width:min(620px,calc(100vw - 24px));color:var(--ink);max-height:90vh}dialog::backdrop{background:#0F1114B0}.dialog-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.error{color:#8c301e;margin:6px 0}.ok{color:var(--green);font-weight:700}.rule{border-top:1px solid var(--line);margin:13px 0}.notice{background:#faf1d6;color:#584817;border-radius:7px;padding:7px 10px;font-size:12px}.row{padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:9px;justify-content:space-between;align-items:center}.row:last-child{border:0}.action{padding:5px 9px;font-size:12px}
 @media(max-width:850px){.shell{grid-template-columns:1fr}aside{gap:10px;padding:12px 16px}.nav{display:flex;flex-wrap:wrap}.nav button{padding:7px 9px}.side-foot{display:none}.split{grid-template-columns:1fr}.inner{padding-top:25px}}@media(max-width:580px){.head{align-items:start;flex-direction:column}.stats{grid-template-columns:1fr 1fr}.fields,.services{grid-template-columns:1fr}.top{min-height:54px}.public-intro{padding:18px}td,th{padding:9px}.public{padding-top:17px}}
 
-.demo-strip{background:#fff3e8;color:#472510;border-bottom:1px solid #f1d8c5;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px clamp(16px,4vw,45px);font-size:12px}.demo-strip strong{margin-right:5px}.demo-strip .button{font-size:12px;padding:5px 8px}.flag{width:18px;height:18px;background:conic-gradient(#0F1114 25%,transparent 0 50%,#0F1114 0 75%,transparent 0) 0 0/12px 12px}.hero-label{display:inline-block;border-top:3px solid var(--accent);padding-top:8px}.public-intro{border:1px solid #f1d8c5}.mark{border-radius:7px}.public-nav .top a{text-underline-offset:4px}.demo-strip .message:empty{display:none}
+.flag{width:18px;height:18px;background:conic-gradient(#0F1114 25%,transparent 0 50%,#0F1114 0 75%,transparent 0) 0 0/12px 12px}.hero-label{display:inline-block;border-top:3px solid var(--accent);padding-top:8px}.public-intro{border:1px solid #f1d8c5}.mark{border-radius:7px}.public-nav .top a{text-underline-offset:4px}
 
 .settings-grid{display:grid;gap:8px;margin:14px 0}.setting-row{display:grid;grid-template-columns:minmax(125px,1fr) repeat(2,minmax(110px,1fr));gap:10px;align-items:end;border-bottom:1px solid var(--line);padding:0 0 8px}.setting-row[data-weekday]{grid-template-columns:minmax(90px,1fr) auto repeat(2,minmax(95px,1fr))}.setting-row label{font-size:12px;font-weight:650}.setting-row input,.setting-row select{margin-top:4px}.setting-row .check{white-space:nowrap;align-self:center}.setting-row .check input{width:auto}.ledger-line{border:1px solid var(--line);border-radius:8px;margin:10px 0;padding:10px}.ledger-line legend{font-size:13px;font-weight:700}.ledger-line .fields{margin-top:2px}
-@media(max-width:580px){.setting-row,.setting-row[data-weekday]{grid-template-columns:repeat(2,minmax(0,1fr))}.setting-row[data-service] strong{grid-column:1/-1}.demo-strip{flex-wrap:wrap}}
+@media(max-width:580px){.setting-row,.setting-row[data-weekday]{grid-template-columns:repeat(2,minmax(0,1fr))}.setting-row[data-service] strong{grid-column:1/-1}}
 
 .print-document h2,.print-document h3{margin:8px 0}.print-document .table{margin:16px 0}
 @media print{body:has(.print-document) #app{display:none}body:has(.print-document){background:white;overflow:visible}dialog:has(.print-document)[open]{display:block;position:static;width:100%;max-width:none;max-height:none;overflow:visible;border:0;margin:0;padding:0}dialog:has(.print-document)::backdrop{display:none}.print-document .no-print{display:none}.print-document .table{overflow:visible}.print-document tr{break-inside:avoid}}
 </style></head><body><div id="app"></div><dialog id="dialog"></dialog>
 <script>
 'use strict';
-const demo=true;
 const app=document.querySelector('#app'), dialog=document.querySelector('#dialog');
 const services={
   'MOT test':{length:60,price:'£49',description:'Class 4 test for cars and eligible light vehicles'},
@@ -39,29 +38,10 @@ const plate=v=>escapeHTML(v.length>4?v.slice(0,-3)+' '+v.slice(-3):v);
 const icons={Diary:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4m8-4v4"/>',Customers:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2m2-15a3 3 0 0 1 0 6m1 3a4 4 0 0 1 3 4v2"/>',Vehicles:'<path d="m4 11 2-5h12l2 5M3 12h18v6H3zM5 18v3m14-3v3M6 15h2m8 0h2"/>',Suppliers:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3m-13 6h18"/>',Finances:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-14 5h4"/>',Settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4M5 5l3 3m8 8 3 3m0-14-3 3m-8 8-3 3"/>'};
 icons.Reminders='<rect x="4" y="5" width="16" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>';
 const icon=name=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">'+icons[name]+'</svg>';
-const firstOpen=()=>{let d=today();while([0,6].includes(new Date(d+'T12:00Z').getUTCDay()))d=advance(d,1);return d};
 const isClosed=j=>['Cancelled','No-show'].includes(j.status);
 const minutes=t=>Number(t.slice(0,2))*60+Number(t.slice(3));
 const lanes=s=>s.startsWith('MOT')?['MOT bay']:['Workshop 1','Workshop 2'];
-function sample(){return [
- ['08:30','MOT test','Oliver Hughes','KY19WLF','Ford Fiesta','Confirmed','MOT bay'],
- ['09:00','Full service','Nina Patel','MK21JPE','Volkswagen Golf','Checked in','Workshop 1'],
- ['09:30','Diagnostics','Graham Ellis','PJ17HVR','Vauxhall Astra','In progress','Workshop 2'],
- ['10:00','MOT test','Beth Wilson','MF22NRT','Toyota Yaris','Requested','MOT bay'],
- ['11:00','Interim service','Adam Lewis','DE20SXU','Škoda Octavia','Awaiting approval','Workshop 1'],
- ['13:30','MOT + full service','Sophie Green','PN18JWR','MINI Cooper','Confirmed','MOT bay']
-].map(([time,service,name,reg,vehicle,status,bay],i)=>({id:'WD-DEMO'+(i+1),date:firstOpen(),time,service,name,reg,vehicle,status,bay,email:'driver'+(i+1)+'@example.com',phone:'07700900001',notes:i===2?'Engine warning light comes on intermittently.':'',staffNotes:'',length:services[service].length,source:'Example'}))}
-const initial=()=>{
- const jobs=sample(),date=advance(today(),-3);
- jobs.push({...jobs[1],id:'WD-DEMO7',date,status:'Completed',total:19900,
-  parts:[{part:'Oil filter',supplier:'Example Motor Factors',reference:'MF-102',qty:1,cost:850},
-         {part:'Engine oil',supplier:'Example Motor Factors',reference:'MF-102',qty:1,cost:2800}],
-  payments:[{date,amount:19900,method:'Card'}]});
- return {jobs,blocks:[],name:'Ribble Valley Chequered Flag',
-  expenses:[{id:'demo-expense',date,type:'Consumables',description:'Workshop wipes and gloves',supplier:'Example Workshop Supplies',reference:'WS-204',amount:2460}]};
-};
 function normalise(data){return {...data,prices:data.prices||{},hours:data.hours||defaultHours(),overrides:data.overrides||{},expenses:data.expenses||[],suppliers:data.suppliers||[],invoiceSequence:data.invoiceSequence||0}}
-function readDemo(){try{return normalise(JSON.parse(localStorage.getItem('ivory-garage-webshare-v1'))||initial())}catch{return normalise(initial())}}
 const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const bankHolidays=new Set(('2026-01-01 2026-04-03 2026-04-06 2026-05-04 2026-05-25 2026-08-31 2026-12-25 2026-12-28 2027-01-01 2027-03-26 2027-03-29 2027-05-03 2027-05-31 2027-08-30 2027-12-27 2027-12-28 2028-01-03 2028-04-14 2028-04-17 2028-05-01 2028-05-29 2028-08-28 2028-12-25 2028-12-26').split(' '));
 const defaultHours=()=>weekdays.map((_,i)=>i===0||i===6?null:['08:30','17:30']);
@@ -96,18 +76,18 @@ function settingsPanels(){
  '<section class="panel pad"><h2>Bank holidays and date overrides</h2><p class="muted">England and Wales bank holidays and 25–26 December are closed by default. Open a specific day with custom hours, or add an extra closure. Existing bookings are kept in the diary.</p><form id="override"><div class="fields">'+field('Date','date',today(),'type="date" required')+'<label>Booking availability<select name="mode">'+optionList(['Closed','Open with custom hours'])+'</select></label>'+field('Opens','opens','08:30','type="time" disabled required')+field('Closes','closes','17:30','type="time" disabled required')+'</div><p class="error" role="alert"></p><button class="button primary">Save date override</button></form><div id="dates-list"></div></section></div>');
  const prices=host.querySelector('#prices');
  prices.querySelectorAll('[data-service]').forEach(row=>row.querySelector('select').onchange=e=>{const input=row.querySelector('input');input.disabled=e.target.value==='Quote required';input.required=!input.disabled});
- prices.onsubmit=e=>{
+ prices.onsubmit=async e=>{
   e.preventDefault();
-  model=readDemo();
+
   for(const row of prices.querySelectorAll('[data-service]')){
    const mode=row.querySelector('select').value;
    model.prices[row.dataset.service]={mode,amount:mode==='Quote required'?null:pennies(row.querySelector('input').value)};
   }
-  persist();prices.querySelector('[role=status]').textContent=' Prices saved.';
+  await persist();prices.querySelector('[role=status]').textContent=' Prices saved.';
  };
  const hours=host.querySelector('#hours');
  hours.querySelectorAll('[data-weekday]').forEach(row=>row.querySelector('input[type=checkbox]').onchange=e=>row.querySelectorAll('input[type=time]').forEach(input=>input.disabled=e.target.checked));
- hours.onsubmit=e=>{
+ hours.onsubmit=async e=>{
   e.preventDefault();
   const next=defaultHours(),msg=hours.querySelector('.error');
   for(const row of hours.querySelectorAll('[data-weekday]')){
@@ -115,20 +95,20 @@ function settingsPanels(){
    if(!closed.checked&&open.value>=close.value){msg.textContent='Closing time must be later than opening time for '+weekdays[row.dataset.weekday]+'.';return}
    next[row.dataset.weekday]=closed.checked?null:[open.value,close.value];
   }
-  model=readDemo();model.hours=next;persist();msg.textContent='Opening hours saved.';
+  model.hours=next;await persist();msg.textContent='Opening hours saved.';
  };
  const override=host.querySelector('#override');
  const toggle=()=>{for(const k of ['opens','closes'])override.elements[k].disabled=override.elements.mode.value==='Closed'};
  override.elements.mode.onchange=toggle;
- override.onsubmit=e=>{
+ override.onsubmit=async e=>{
   e.preventDefault();
   const {date,mode,opens,closes}=Object.fromEntries(new FormData(override));
   if(mode!=='Closed'&&opens>=closes){override.querySelector('.error').textContent='Closing time must be later than opening time.';return}
-  model=readDemo();model.overrides[date]=mode==='Closed'?null:[opens,closes];model.blocks=model.blocks.filter(d=>d!==date);persist();renderSettings();
+  model.overrides[date]=mode==='Closed'?null:[opens,closes];model.blocks=model.blocks.filter(d=>d!==date);await persist();renderSettings();
  };
  const dates=[...new Set([...Object.keys(model.overrides),...model.blocks])].sort();
  host.querySelector('#dates-list').innerHTML=dates.map(d=>'<div class="row"><span>'+escapeHTML(dateText(d))+' · '+(model.overrides[d]?model.overrides[d].join('–'):'Closed')+'</span><button class="button action" data-clear-date="'+escapeHTML(d)+'">Use default</button></div>').join('');
- host.querySelectorAll('[data-clear-date]').forEach(b=>b.onclick=()=>{const d=b.dataset.clearDate;model=readDemo();delete model.overrides[d];model.blocks=model.blocks.filter(day=>day!==d);persist();renderSettings()});
+ host.querySelectorAll('[data-clear-date]').forEach(b=>b.onclick=async()=>{const d=b.dataset.clearDate;delete model.overrides[d];model.blocks=model.blocks.filter(day=>day!==d);await persist();renderSettings()});
 }
 function hoursRow(name,hours,i){
  return '<div class="setting-row" data-weekday="'+i+'"><strong>'+name+'</strong><label class="check"><input type="checkbox" '+(hours?'':'checked')+'> Closed</label>'+field('Opens','open',hours?.[0]||'08:30','type="time" required '+(hours?'':'disabled'))+field('Closes','close',hours?.[1]||'17:30','type="time" required '+(hours?'':'disabled'))+'</div>';
@@ -192,27 +172,27 @@ function renderSuppliers(){
  const cancel=host.querySelector('#supplier-cancel');
  if(cancel)cancel.onclick=()=>{supplierEdit='';renderSuppliers()};
  const f=host.querySelector('form');
- f.onsubmit=e=>{
+ f.onsubmit=async e=>{
   e.preventDefault();
   try{
    const data=Object.fromEntries(new FormData(f));data.name=data.name.trim();data.phone=data.phone.trim();
    if(!data.name)throw Error('Enter a supplier name.');
    if(data.phone&&(!/^\+?[0-9 ().-]+$/.test(data.phone)||data.phone.replace(/\D/g,'').length<7))throw Error('Enter a valid telephone number.');
    data.website=supplierUrl(data.website);
-   model=readDemo();
+
    if(model.suppliers.some(s=>s.id!==item.id&&s.name.toLowerCase()===data.name.toLowerCase()))throw Error('A supplier with that name already exists.');
    if(item.id&&item.name!==data.name)model.jobs=model.jobs.map(j=>({...j,parts:(j.parts||[]).map(p=>p.supplier===item.name?{...p,supplier:data.name}:p)}));
    data.id=item.id||crypto.randomUUID();
-   model.suppliers=model.suppliers.filter(s=>s.id!==data.id).concat(data);persist();supplierEdit='';renderSuppliers();
+   model.suppliers=model.suppliers.filter(s=>s.id!==data.id).concat(data);await persist();supplierEdit='';renderSuppliers();
   }catch(err){f.querySelector('.error').textContent=err.message}
  };
 }
 const lineTotal=lines=>lines.reduce((sum,line)=>sum+line.qty*line.price,0);
-const workData=j=>j.work||{mileage:'',fault:j.notes||'',findings:j.id==='WD-DEMO5'?'Rear brake pads worn. Customer approval needed before replacement.':'',workDone:'',advisories:'',versions:[]};
+const workData=j=>j.work||{mileage:'',fault:j.notes||'',findings:'',workDone:'',advisories:'',versions:[]};
 const latestEstimate=work=>work.versions.at(-1);
 const draftFor=j=>j.work?.draft||(j.id==='WD-DEMO5'?[{kind:'Service',description:'Interim service',qty:1,price:12900},{kind:'Part',description:'Rear brake pads',qty:1,price:6700},{kind:'Labour',description:'Fit rear brake pads',qty:1,price:5400}]:[]);
 function renderWork(id){
- model=readDemo();
+
  const j=model.jobs.find(job=>job.id===id);
  if(!j)return;
  const w=workData(j),current=latestEstimate(w);
@@ -225,9 +205,9 @@ function renderWork(id){
  '<div class="rule"></div><h3>Estimate</h3><p class="muted">Enter customer-facing prices, including any applicable VAT. The parts costs you record separately stay on the staff record.</p><div id="estimate-lines"></div><div class="controls"><button type="button" class="button action" id="add-line">Add estimate item</button><strong id="estimate-total"></strong></div>'+
  '<p class="error" role="alert"></p><div class="controls"><button class="button primary" type="submit" value="save">Save job card</button><button class="button" type="submit" value="version" '+(invoice?'disabled':'')+'>Save estimate version</button><button type="button" class="button" id="print-job">Print job sheet</button></div></form>'+
  '<div class="rule"></div><h3>Approval history</h3>'+
- (current&&!current.decision&&!invoice?'<button type="button" class="button" id="customer-approval">Preview customer approval</button>':'')+
+ (current&&!current.decision&&!invoice?'<button type="button" class="button" id="customer-approval">Create customer approval link</button>':'')+
  ([...w.versions].reverse().map(v=>'<div class="row"><div><strong>Estimate '+v.version+' · '+money(lineTotal(v.lines))+'</strong><small style="display:block">'+escapeHTML(v.decision?v.decision.result+' by '+v.decision.name+' · '+v.decision.method+' · '+v.decision.date:v.date+' · Awaiting decision')+'</small></div><button type="button" class="button action" data-preview-estimate="'+v.version+'">'+(v===current&&!v.decision?'Review and record decision':'View estimate')+'</button></div>').join('')||'<p class="muted">Save an estimate version to record a customer decision.</p>')+
- '<div class="rule"></div><h3>Invoice</h3>'+(invoice?'<p>'+escapeHTML(invoice.number)+' · '+money(lineTotal(invoice.lines))+'</p><button type="button" class="button" id="print-invoice">View and print invoice</button>':'<p class="muted">Complete the booking and approve its latest estimate before issuing a demo invoice.</p><button type="button" class="button" id="issue" '+(j.status==='Completed'&&current?.decision?.result==='Approved'?'':'disabled')+'>Issue demo invoice</button>')+
+ '<div class="rule"></div><h3>Invoice</h3>'+(invoice?'<p>'+escapeHTML(invoice.number)+' · '+money(lineTotal(invoice.lines))+'</p><button type="button" class="button" id="print-invoice">View and print invoice</button>':'<p class="muted">Complete the booking and approve its latest estimate before issuing an invoice.</p><button type="button" class="button" id="issue" '+(j.status==='Completed'&&current?.decision?.result==='Approved'?'':'disabled')+'>Issue invoice</button>')+
  '<div class="rule"></div><button class="button" id="booking-details">Back to booking details</button></div>';
  dialog.setAttribute('aria-labelledby','job-title');
  if(!dialog.open)dialog.showModal();
@@ -243,17 +223,17 @@ function renderWork(id){
  for(const line of draftFor(j))add(line);
  f.querySelector('#add-line').onclick=()=>add();
  f.oninput=recalc;recalc();
- f.onsubmit=e=>{
+ f.onsubmit=async e=>{
   e.preventDefault();
   try{
    const lines=readEstimate(list),values=Object.fromEntries(new FormData(f));
    if(lines.some(line=>!line.description))throw Error('Enter a description for every estimate item.');
    if(e.submitter?.value==='version'&&!lines.length)throw Error('Add an estimate item before saving a version.');
-   updateWork(id,(job,work)=>{
+   await updateWork(id,(job,work)=>{
     job.motDue=values.motDue;job.serviceDue=values.serviceDue;
     Object.assign(work,{mileage:values.mileage,fault:values.fault,findings:values.findings,workDone:values.workDone,advisories:values.advisories,draft:lines});
     if(e.submitter?.value==='version'){
-     if(work.invoice)throw Error('This demo invoice has already been issued.');
+     if(work.invoice)throw Error('This invoice has already been issued.');
      work.versions.push({version:(latestEstimate(work)?.version||0)+1,date:today(),lines});
     }
    });
@@ -263,12 +243,12 @@ function renderWork(id){
  f.querySelector('#print-job').onclick=()=>documentView(id,'job');
  dialog.querySelectorAll('[data-preview-estimate]').forEach(b=>b.onclick=()=>documentView(id,'estimate',Number(b.dataset.previewEstimate)));
  const approval=dialog.querySelector('#customer-approval');
- if(approval)approval.onclick=()=>previewApproval(id,current.version);
+ if(approval)approval.onclick=()=>shareApproval(id,current.version);
  if(invoice)dialog.querySelector('#print-invoice').onclick=()=>documentView(id,'invoice');
- else dialog.querySelector('#issue').onclick=()=>{
+ else dialog.querySelector('#issue').onclick=async()=>{
   const error=f.querySelector('.error');
   try{
-   issueInvoice(id,readEstimate(list));
+   await issueInvoice(id,readEstimate(list));
    renderStaff();
    documentView(id,'invoice');
   }catch(err){error.textContent=err.message}
@@ -280,52 +260,52 @@ function readEstimate(list){
   return {kind:val('kind'),description:val('description').trim(),qty:Number(val('qty')),price:pennies(val('price'))||0};
  });
 }
-function updateWork(id,change){
- model=readDemo();
+async function updateWork(id,change){
+
  const j=model.jobs.find(job=>job.id===id);
  if(!j)throw Error('Booking could not be found.');
- j.work=workData(j);change(j,j.work);persist();
+ j.work=workData(j);change(j,j.work);await persist();
 }
 function documentView(id,kind,version){
- model=readDemo();
+
  const j=model.jobs.find(job=>job.id===id),w=workData(j);
  const doc=kind==='estimate'?w.versions.find(v=>v.version===version):kind==='invoice'?w.invoice:null;
- const title=kind==='job'?'Workshop job sheet':kind==='estimate'?'Estimate '+version:'Demo invoice '+doc.number;
+ const title=kind==='job'?'Workshop job sheet':kind==='estimate'?'Estimate '+version:'Invoice '+doc.number;
  const canDecide=kind==='estimate'&&!doc.decision&&doc===latestEstimate(w)&&!w.invoice;
  const total=doc?lineTotal(doc.lines):0,paid=paymentsTotal(j);
- dialog.innerHTML='<div class="pad print-document"><p class="notice">Workshop Desk demonstration</p><h2 id="job-title">'+escapeHTML(title)+'</h2><p><strong>'+escapeHTML(model.name)+'</strong></p><p>'+escapeHTML((doc?.customer||j.name)+' · '+(doc?.reg||j.reg)+' · '+(doc?.vehicle||j.vehicle))+'</p><p>'+escapeHTML(j.id+' · '+dateText(doc?.date||j.date))+'</p>'+
+ dialog.innerHTML='<div class="pad print-document"><h2 id="job-title">'+escapeHTML(title)+'</h2><p><strong>'+escapeHTML(model.name)+'</strong></p><p>'+escapeHTML((doc?.customer||j.name)+' · '+(doc?.reg||j.reg)+' · '+(doc?.vehicle||j.vehicle))+'</p><p>'+escapeHTML(j.id+' · '+dateText(doc?.date||j.date))+'</p>'+
  (kind==='job'?'<p>Mileage '+escapeHTML(w.mileage||'Not recorded')+'</p>'+[['Fault reported',w.fault],['Findings',w.findings],['Work carried out',w.workDone],['Advisories',w.advisories]].map(([label,value])=>'<div class="rule"></div><h3>'+label+'</h3><p style="white-space:pre-wrap">'+escapeHTML(value||'No entry')+'</p>').join(''):
  '<div class="table"><table><thead><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Total</th></tr></thead><tbody>'+doc.lines.map(line=>'<tr><td>'+escapeHTML(line.kind+' · '+line.description)+'</td><td>'+line.qty+'</td><td>'+money(line.price)+'</td><td>'+money(line.qty*line.price)+'</td></tr>').join('')+'</tbody></table></div><p><strong>Total '+money(total)+'</strong></p>'+
  (kind==='invoice'?'<p>Work date '+escapeHTML(dateText(doc.supplyDate))+'</p><p>Payments recorded '+money(paid)+' · Balance '+money(Math.max(0,total-paid))+'</p>':''))+
- (canDecide?'<form id="decision" class="no-print"><div class="rule"></div><h3>Record a customer decision</h3><p class="muted">Preview the estimate above and record a decision for this demo.</p><div class="fields">'+field('Name','name',j.name,'required maxlength="100"')+'<label>How recorded<select name="method">'+optionList(['Phone','In person','Demo customer preview'])+'</select></label></div><p class="error" role="alert"></p><div class="controls"><button class="button primary" value="Approved">Approve estimate</button><button class="button" value="Declined">Decline estimate</button></div></form>':'')+
+ (canDecide?'<form id="decision" class="no-print"><div class="rule"></div><h3>Record a customer decision</h3><p class="muted">Use this when the customer gave their decision directly.</p><div class="fields">'+field('Name','name',j.name,'required maxlength="100"')+'<label>How recorded<select name="method">'+optionList(['Phone','In person','Email'])+'</select></label></div><p class="error" role="alert"></p><div class="controls"><button class="button primary" value="Approved">Approve estimate</button><button class="button" value="Declined">Decline estimate</button></div></form>':'')+
  '<div class="rule no-print"></div><div class="controls no-print"><button class="button" id="print-doc">Print / save PDF</button><button class="button" id="back-work">Back to job card</button></div></div>';
  dialog.querySelector('#print-doc').onclick=()=>window.print();
  dialog.querySelector('#back-work').onclick=()=>renderWork(id);
  const form=dialog.querySelector('#decision');
- if(form)form.onsubmit=e=>{
+ if(form)form.onsubmit=async e=>{
   e.preventDefault();
   try{
    const data=Object.fromEntries(new FormData(form)),result=e.submitter.value;
    if(!data.name.trim())throw Error('Enter the name of the person who made the decision.');
-   recordDecision(id,version,data.name.trim(),data.method,result);
+   await recordDecision(id,version,data.name.trim(),data.method,result);
    renderStaff();
    renderWork(id);
   }catch(err){form.querySelector('.error').textContent=err.message}
  };
 }
 
-function issueInvoice(id,draft){
- updateWork(id,(job,work)=>{
+async function issueInvoice(id,draft){
+ await updateWork(id,(job,work)=>{
   const approved=latestEstimate(work);
   if(work.invoice||job.status!=='Completed'||approved?.decision?.result!=='Approved')throw Error('Complete the job and approve the latest estimate first.');
   if(JSON.stringify(draft)!==JSON.stringify(approved.lines))throw Error('Save and approve the revised estimate before issuing an invoice.');
   model.invoiceSequence+=1;
-  work.invoice={number:'DEMO-'+String(model.invoiceSequence).padStart(4,'0'),date:today(),supplyDate:job.date,lines:approved.lines,customer:job.name,reg:job.reg,vehicle:job.vehicle,estimate:approved.version};
+  work.invoice={number:'WD-'+String(model.invoiceSequence).padStart(4,'0'),date:today(),supplyDate:job.date,lines:approved.lines,customer:job.name,reg:job.reg,vehicle:job.vehicle,estimate:approved.version};
   job.total=lineTotal(approved.lines);
  });
 }
-function recordDecision(id,version,name,method,result){
- updateWork(id,(job,work)=>{
+async function recordDecision(id,version,name,method,result){
+ await updateWork(id,(job,work)=>{
   const estimate=latestEstimate(work);
   if(estimate?.version!==version||estimate.decision||work.invoice)throw Error('This estimate is no longer awaiting a decision.');
   estimate.decision={name,method,result,date:new Date().toLocaleString('en-GB',{timeZone:'Europe/London'})};
@@ -359,25 +339,25 @@ function renderFinances(){
  '<section class="panel pad"><h2>'+(current.id?'Edit expense':'Record an expense')+'</h2><p class="muted">Use this for overheads and other costs. Record job parts on the booking so each cost is counted once.</p><form id="expense"><div class="fields">'+field('Date','date',current.date||today(),'type="date" required')+'<label>Category<select name="type">'+optionList(expenseTypes,current.type)+'</select></label>'+field('Description','description',current.description,'required maxlength="100"')+field('Supplier or payee','supplier',current.supplier,'maxlength="100"')+field('Reference','reference',current.reference,'maxlength="80"')+field('Amount (£)','amount',decimal(current.amount),amountOpts.replace('min="0"','min="0.01"')+' required')+'</div><div class="controls"><button class="button primary">Save expense</button>'+(current.id?'<button type="button" class="button" id="cancel-expense">Cancel edit</button>':'')+'</div></form></section></div>'+
  '<section class="panel pad" style="margin-top:16px"><h2>Expenses in this period</h2>'+([...report.expenses].sort((a,b)=>b.date.localeCompare(a.date)).map(e=>'<div class="row"><div><strong>'+escapeHTML(e.description)+'</strong><small style="display:block">'+escapeHTML(dateText(e.date)+' · '+e.type+(e.supplier?' · '+e.supplier:''))+'</small></div><div class="controls"><strong>'+money(e.amount)+'</strong><button class="button action" data-expense="'+escapeHTML(e.id)+'">Edit</button><button class="button action" data-delete="'+escapeHTML(e.id)+'">Remove</button></div></div>').join('')||'<p class="muted">No expenses recorded for these dates.</p>')+'</section>'+
  '<section class="panel pad" style="margin-top:16px"><h2>Parts cost by supplier</h2>'+supplierRows(report.parts)+'</section>';
- host.querySelector('#period').onsubmit=e=>{
+ host.querySelector('#period').onsubmit=async e=>{
   e.preventDefault();const {from,to}=Object.fromEntries(new FormData(e.target));
   if(from>to){e.target.querySelector('.error').textContent='Choose an end date on or after the start date.';return}
   financeFrom=from;financeTo=to;renderFinances();
  };
- host.querySelector('#expense').onsubmit=e=>{
+ host.querySelector('#expense').onsubmit=async e=>{
   e.preventDefault();const values=Object.fromEntries(new FormData(e.target));
   if(!values.description.trim()){e.target.elements.description.value='';e.target.elements.description.reportValidity();return}
-  model=readDemo();
+
   const entry={...values,description:values.description.trim(),amount:pennies(values.amount),id:current.id||crypto.randomUUID()};
   model.expenses=model.expenses.filter(x=>x.id!==entry.id).concat(entry);
-  persist();editingExpense=null;
+  await persist();editingExpense=null;
   if(entry.date<financeFrom)financeFrom=entry.date;
   if(entry.date>financeTo)financeTo=entry.date;
   renderFinances();
  };
  if(current.id)host.querySelector('#cancel-expense').onclick=()=>{editingExpense=null;renderFinances()};
  host.querySelectorAll('[data-expense]').forEach(b=>b.onclick=()=>{editingExpense=b.dataset.expense;renderFinances();host.querySelector('#expense input').focus()});
- host.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>{if(!confirm('Remove this expense?'))return;model=readDemo();model.expenses=model.expenses.filter(e=>e.id!==b.dataset.delete);if(editingExpense===b.dataset.delete)editingExpense=null;persist();renderFinances()});
+ host.querySelectorAll('[data-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Remove this expense?'))return;model.expenses=model.expenses.filter(e=>e.id!==b.dataset.delete);if(editingExpense===b.dataset.delete)editingExpense=null;await persist();renderFinances()});
  host.querySelector('#ledger-csv').onclick=()=>downloadCsv('workshop-activity.csv',[
   ['Date','Type','Booking reference','Registration','Description','Supplier','Reference','Amount GBP'],
   ...report.bookings.map(j=>[j.date,'Booking',j.id,j.reg,j.service+' / '+j.status,'','',decimal(j.total)]),
@@ -392,12 +372,17 @@ function supplierRows(parts){
  return [...totals].sort((a,b)=>b[1]-a[1]).map(([name,cost])=>'<div class="row"><span>'+escapeHTML(name)+'</span><strong>'+money(cost)+'</strong></div>').join('')||'<p class="muted">No parts recorded for jobs booked in these dates.</p>';
 }
 
-let model=demo?readDemo():{jobs:[],blocks:[],name:'Workshop Desk'};
-const base=demo?'':location.pathname.replace(/\/$/,'').replace(/\/staff$/,'');
-const staff=demo?location.hash!=='#booking':/\/staff\/?$/.test(location.pathname);
-let page='Diary',day=demo?firstOpen():today(),filter='',query='',scope='day';
-const siteLink=demo?'#booking':base+'/'; const staffLink=demo?'#diary':base+'/staff';
-const request=async(path,body)=>{let res=await fetch(base+'/api/'+path,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});let data=await res.json();if(!res.ok)throw Error(data.error||'Something went wrong. Please try again.');return data};
+let model=normalise({jobs:[],blocks:[],name:'Workshop Desk'});
+const staff=location.pathname==='/staff';
+const base=staff?'':location.pathname;
+let page='Diary',day=today(),filter='',query='',scope='day';
+let siteLink='';
+async function request(path,body){
+ const res=await fetch('/api'+base+'/'+path,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const data=await res.json();
+ if(!res.ok)throw Object.assign(new Error(data.error||'Something went wrong. Please try again.'),{status:res.status});
+ return data;
+}
 function slots(date,service,exclude=''){
  const hours=opening(date);
  if(!hours)return [];
@@ -405,40 +390,42 @@ function slots(date,service,exclude=''){
  const now=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());
  return Array.from({length:Math.max(0,Math.floor((close-open)/30)+1)},(_,i)=>{const start=open+i*30;return String(Math.floor(start/60)).padStart(2,'0')+':'+String(start%60).padStart(2,'0')}).filter(t=>{
    const start=minutes(t),end=start+services[service].length;
-   return end<=close&&(demo||date>today()||date===today()&&t>now)&&lanes(service).some(b=>model.jobs.every(j=>j.id===exclude||j.bay!==b||j.date!==date||isClosed(j)||end<=minutes(j.time)||start>=minutes(j.time)+j.length))
+   return end<=close&&(staff||date>today()||date===today()&&t>now)&&lanes(service).some(b=>model.jobs.every(j=>j.id===exclude||j.bay!==b||j.date!==date||isClosed(j)||end<=minutes(j.time)||start>=minutes(j.time)+j.length))
  });
 }
-function persist(){localStorage.setItem('ivory-garage-webshare-v1',JSON.stringify(model))}
+let savedModel;
+async function persist(){
+ document.body.inert=true;
+ try{
+  const result=await request('staff',model);
+  model.revision=result.revision;
+  savedModel=structuredClone(model);
+ }catch(err){
+  model=structuredClone(savedModel);
+  throw err;
+ }finally{document.body.inert=false}
+}
+window.addEventListener('unhandledrejection',event=>{
+ event.preventDefault();
+ alert(event.reason?.message||'Could not save. Reload the page and try again.');
+});
 async function save(job){
- if(!demo){const value=await request(staff?'staff-job':'job',job);if(staff)model=await request('staff');return value}
- model=readDemo();
+ if(!staff)return request('job',job);
+
  const previous=model.jobs.find(j=>j.id===job.id);
  const same=previous&&['date','time','service'].every(k=>previous[k]===job[k]);
  if(isClosed(job)&&!same)throw Error('Cancel the existing booking without changing its date, time or service.');
  if((!same||isClosed(previous))&&!isClosed(job)&&!slots(job.date,job.service,job.id).includes(job.time))throw Error('That time is no longer available. Please choose another.');
  const length=same?previous.length:services[job.service].length;
  const bay=same&&(isClosed(job)||!isClosed(previous))?previous.bay:lanes(job.service).find(b=>model.jobs.every(j=>j.id===job.id||j.bay!==b||j.date!==job.date||isClosed(j)||minutes(job.time)+length<=minutes(j.time)||minutes(job.time)>=minutes(j.time)+j.length));
- const record={...previous,...job,total:previous?.work?.invoice?previous.total:job.total,length,bay,id:previous?.id||'WD-'+Math.random().toString(36).slice(2,9).toUpperCase()};
- model.jobs=model.jobs.filter(j=>j.id!==record.id).concat(record);persist();return record;
+ const record={...previous,...job,total:previous?.work?.invoice?previous.total:job.total,length,bay,source:previous?.source||'Workshop',id:previous?.id||'WD-'+Array.from(crypto.getRandomValues(new Uint8Array(6)),v=>v.toString(16).padStart(2,'0')).join('').toUpperCase()};
+ model.jobs=model.jobs.filter(j=>j.id!==record.id).concat(record);await persist();return record;
 }
-const demoStrip='<div class="demo-strip"><div><strong>Interactive demo</strong> Use made-up details. No bookings are sent to the garage.</div><button class="button" id="share-demo">Share demo</button><span class="message" id="share-message" role="status"></span></div>';
-app.addEventListener('click',async event=>{
- if(event.target.id!=='share-demo')return;
- const url=new URL(location.href);
- url.hash='';
- const message=document.querySelector('#share-message');
- try{
-  if(navigator.share){await navigator.share({title:'Workshop Desk | Ivory Digital',url:url.href});return}
-  await navigator.clipboard.writeText(url.href);
-  message.textContent='Link copied';
- }catch(error){
-  if(error.name==='AbortError')return;
-  window.prompt('Copy the demo link',url.href);
- }
-});
 const brand='<div class="brand"><span class="mark" aria-hidden="true"><span class="flag"></span></span><span>Workshop Desk</span></div>';
 function renderStaff(){
- app.innerHTML='<div class="shell"><aside>'+brand+'<div class="nav" aria-label="Workshop navigation">'+Object.keys(icons).map(n=>'<button data-nav="'+n+'" aria-current="'+(page===n)+'">'+icon(n)+n+'</button>').join('')+'</div><div class="side-foot"><div>Ivory Digital</div><div class="side-note">Garage booking software</div></div></aside><main class="workspace"><header class="top"><strong>'+escapeHTML(model.name)+'</strong><a href="'+siteLink+'">Customer booking page ↗</a></header>'+demoStrip+'<div class="inner" id="main"></div></main></div>';
+ app.innerHTML='<div class="shell"><aside>'+brand+'<div class="nav" aria-label="Workshop navigation">'+Object.keys(icons).map(n=>'<button data-nav="'+n+'" aria-current="'+(page===n)+'">'+icon(n)+n+'</button>').join('')+'</div><div class="side-foot"><div>Ivory Digital</div><div class="side-note">Garage booking software</div></div></aside><main class="workspace"><header class="top"><strong>'+escapeHTML(model.name)+'</strong><div class="controls"><a href="'+escapeHTML(siteLink)+'">Customer booking page ↗</a><button class="button" id="reload-diary">Refresh</button><button class="button" id="sign-out">Sign out</button></div></header><div class="inner" id="main"></div></main></div>';
+ app.querySelector('#reload-diary').onclick=()=>location.reload();
+ app.querySelector('#sign-out').onclick=async()=>{await request('logout',{});location.replace('/')};
  app.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{page=b.dataset.nav;query='';renderStaff()});
  const main=document.querySelector('#main');
  const title={Diary:['Workshop diary','See what’s booked in and what’s ready to go.'],Customers:['Customers','Find a customer and open their booking history.'],Vehicles:['Vehicles','Look up a registration and see previous visits.'],Reminders:['Reminders','See who is due a reminder and what has already been sent.'],Suppliers:['Suppliers','Keep trade contacts and supplier websites handy.'],Finances:['Takings & expenses','See what came in, what went out and what customers still owe.'],Settings:['Garage settings','Manage prices, opening hours and date overrides.']}[page];
@@ -509,7 +496,7 @@ async function fillTimes(f,service,date,old,showOld=false){
  const select=f.elements.time;
  select.disabled=true;select.innerHTML='<option value="">Checking times…</option>';
  try{
-  let times=date?(demo?slots(date,service,old?.id):(await request('slots?'+new URLSearchParams({date,service,...(old?.id?{exclude:old.id}:{})}))).times):[];
+  let times=date?(staff?slots(date,service,old?.id):(await request('slots?'+new URLSearchParams({date,service}))).times):[];
   if(f.elements.date.value!==date||f.elements.service.value!==service)return;
   if(showOld&&old&&!times.includes(old.time))times=[old.time,...times].sort();
   select.innerHTML='<option value="">'+(times.length?'Choose a time':'No times available')+'</option>'+optionList(times,showOld?old?.time:undefined);
@@ -541,9 +528,9 @@ function edit(existing){
  if(!dialog.open)dialog.showModal();refresh();
 }
 function renderPublic(){
- app.innerHTML='<div class="public-nav"><header class="top">'+brand+(demo?'<a href="'+staffLink+'">Staff diary ↗</a>':'')+'</header></div>'+demoStrip+'<main class="public"><section class="public-intro"><p class="eyebrow hero-label">'+escapeHTML(model.name)+'</p><h1>Book your car in</h1><p>Choose the work you need and a time to drop off your vehicle. Try the booking steps with sample details.</p></section><div class="split"><section class="panel pad"><form id="booking"><div id="steps"></div><p class="error" role="alert"></p></form></section><aside class="panel pad" style="background:white;color:var(--ink);gap:12px;align-self:start"><h2>Your visit</h2><div class="summary" id="summary"></div><p class="muted">Please leave your keys at reception when you arrive. For repairs or diagnostics, we’ll discuss the work and price with you before going ahead.</p>'+(demo?'<p class="notice">Example only. Please use made-up contact details.</p>':'')+'</aside></div></main>';
+ app.innerHTML='<div class="public-nav"><header class="top">'+brand+'</header></div><main class="public"><section class="public-intro"><p class="eyebrow hero-label">'+escapeHTML(model.name)+'</p><h1>Book your car in</h1><p>Choose the work you need and a time to drop off your vehicle.</p></section><div class="split"><section class="panel pad"><form id="booking"><div id="steps"></div><p class="error" role="alert"></p></form></section><aside class="panel pad" style="background:white;color:var(--ink);gap:12px;align-self:start"><h2>Your visit</h2><div class="summary" id="summary"></div><p class="muted">Please leave your keys at reception when you arrive. For repairs or diagnostics, we’ll discuss the work and price with you before going ahead.</p></aside></div></main>';
  let step=1;
- const draft={service:'MOT test',date:Array.from({length:91},(_,i)=>advance(today(),i)).find(d=>opening(d))||today(),time:'',reg:'',vehicle:'',name:'',phone:'',email:'',notes:''};
+ const draft={service:'MOT test',date:model.firstDate||today(),time:'',reg:'',vehicle:'',name:'',phone:'',email:'',notes:''};
  const f=document.querySelector('#booking'), content=f.querySelector('#steps');
  const summary=()=>{const s=services[draft.service];document.querySelector('#summary').innerHTML='<strong>'+escapeHTML(draft.service)+'</strong><div>'+escapeHTML(priceLabel(draft.service))+' · '+s.length+' min reserved</div>'+(draft.time?'<div>'+escapeHTML(dateText(draft.date))+' · '+escapeHTML(draft.time)+'</div>':'')};
  const sync=()=>{Object.assign(draft,Object.fromEntries(new FormData(f)));summary()};
@@ -562,7 +549,7 @@ function renderPublic(){
   const button=f.querySelector('[type=submit]');button.disabled=true;
   try{
    const job=await save({...draft,...formJob(f),status:'Requested'});
-   f.innerHTML='<p class="eyebrow">Booking reference</p><h2>Request received</h2><p class="ok">'+escapeHTML(job.id)+'</p><p class="muted">This demo request is saved in your browser. Open the workshop diary to see it.</p><div class="rule"></div><button class="button" type="button" id="again">Make another booking</button>';
+   f.innerHTML='<p class="eyebrow">Booking reference</p><h2>Request received</h2><p class="ok">'+escapeHTML(job.id)+'</p><p class="muted">The garage has received your request and will confirm your booking.</p><div class="rule"></div><button class="button" type="button" id="again">Make another booking</button>';
    f.querySelector('#again').onclick=renderPublic;
   }catch(err){f.querySelector('.error').textContent=err.message;button.disabled=false}
  };
@@ -570,12 +557,17 @@ function renderPublic(){
 }
 async function start(){
  try{
-  if(demo){if(location.hash==='#booking')renderPublic();else renderStaff()}
-  else if(staff){model=await request('staff');renderStaff()}
-  else{model=await request('garage');renderPublic()}
+  if(staff){
+   model=normalise(await request('staff'));
+   siteLink='/book/'+encodeURIComponent(model.slug);
+   savedModel=structuredClone(model);
+   renderStaff();
+  }else{
+   model=normalise({jobs:[],blocks:[],...await request('garage')});
+   renderPublic();
+  }
  }catch(err){app.textContent=err.message}
 }
-window.addEventListener('hashchange',()=>{if(demo){model=readDemo();start()}});
 const partStates=['Used','To order','Ordered','Arrived'];
 const reminderTypes=['MOT','Service','Collection'];
 const mailto=(email,subject,body)=>'mailto:'+encodeURIComponent(email)+'?'+
@@ -588,7 +580,7 @@ function communicationSettings(){
  const saved=model.emailSetup||{};
  const leads={...leadDefaults,...model.reminderLeads};
  host.insertAdjacentHTML('afterbegin','<section class="panel pad" style="margin-bottom:16px"><h2>Workshop email</h2>'+
- '<p class="muted">Find common settings from your email address or enter your provider’s SMTP details. The hosted app will connect and test the mailbox. This demo saves connection details only.</p>'+
+ '<p class="muted">Find common settings from your email address or enter your provider’s SMTP details. These settings are saved with your garage. For now, send messages through your email app.</p>'+
  '<form id="smtp"><div class="fields">'+field('Workshop email','email',saved.email,'type="email" required maxlength="200"')+
  field('SMTP server','host',saved.host,'required maxlength="253"')+
  field('Port','port',saved.port||587,'type="number" min="1" max="65535" step="1" required')+
@@ -616,23 +608,23 @@ function communicationSettings(){
   if(!Array.isArray(preset)){status.textContent='Enter the SMTP details supplied by your email provider.';return}
   const [server,port,security]=preset;
   smtp.elements.host.value=server;smtp.elements.port.value=port;smtp.elements.security.value=security;
-  status.textContent='Suggested settings filled in. Mailbox authentication will be checked in the hosted app.';
+  status.textContent='Suggested settings filled in.';
  };
  smtp.elements.email.onchange=()=>{if(!smtp.elements.host.value&&smtp.elements.email.validity.valid)detect()};
  smtp.querySelector('#smtp-detect').onclick=detect;
- smtp.onsubmit=e=>{
+ smtp.onsubmit=async e=>{
   e.preventDefault();
   const data=Object.fromEntries(new FormData(smtp));
   if(!/^[a-z0-9.-]+$/i.test(data.host.trim())){status.textContent='Enter a server name such as smtp.example.com.';return}
-  model=readDemo();
+
   model.emailSetup={email:data.email,host:data.host.trim(),port:Number(data.port),security:data.security,username:data.username.trim()};
-  persist();status.textContent='Email settings saved for this demo.';
+  await persist();status.textContent='Email settings saved.';
  };
  const form=host.querySelector('#reminder-settings');
- form.onsubmit=e=>{
-  e.preventDefault();model=readDemo();
+ form.onsubmit=async e=>{
+  e.preventDefault();
   model.reminderLeads={MOT:Number(form.elements.MOT.value),Service:Number(form.elements.Service.value)};
-  persist();form.querySelector('[role=status]').textContent='Reminder timing saved.';
+  await persist();form.querySelector('[role=status]').textContent='Reminder timing saved.';
  };
 }
 
@@ -655,7 +647,7 @@ function reminderRows(m){
 }
 
 function renderReminders(){
- model=readDemo();
+
  const host=document.querySelector('#content');
  const sent=model.remindersSent||{};
  const rows=reminderRows(model).filter(r=>!Object.hasOwn(sent,r.key));
@@ -668,31 +660,30 @@ function renderReminders(){
   return row(type+' · '+job.reg,job.name+(type==='Collection'?'':' · '+shortDate(date)),'<div class="controls"><a class="button" href="'+escapeHTML(mailto(job.email,subject,'Hi '+job.name+',\n\n'+message+'\n\n'+model.name))+'">Open email draft</a><button class="button" data-sent="'+i+'">Mark sent</button></div>');
  }).join('')||'<p class="empty">No reminders due.</p>')+
  '<div class="rule"></div><h2>Sent history</h2>'+ (Object.values(sent).reverse().map(r=>row(r.type+' · '+r.reg,r.name+' · '+shortDate(r.sent),'')).join('')||'<p class="muted">No reminders marked sent yet.</p>')+'</section>';
- host.querySelectorAll('[data-sent]').forEach(button=>button.onclick=()=>{
+ host.querySelectorAll('[data-sent]').forEach(button=>button.onclick=async()=>{
   const r=rows[Number(button.dataset.sent)];
-  model=readDemo();
+
   model.remindersSent??={};
   model.remindersSent[r.key]={type:r.type,reg:r.job.reg,name:r.job.name,sent:today()};
-  persist();renderReminders();
+  await persist();renderReminders();
  });
 }
 
-function previewApproval(id,version){
- model=readDemo();
- const job=model.jobs.find(j=>j.id===id),work=workData(job),estimate=latestEstimate(work);
- if(estimate?.version!==version||estimate.decision||work.invoice){renderWork(id);return}
- dialog.innerHTML='<div class="pad"><p class="notice">Customer approval preview</p><h2 id="job-title">Estimate for '+escapeHTML(job.vehicle)+'</h2>'+
- '<p>'+escapeHTML(model.name+' · '+job.reg+' · Estimate '+version)+'</p>'+
- estimate.lines.map(line=>'<div class="row"><span>'+escapeHTML(line.description)+' × '+line.qty+'</span><strong>'+money(line.qty*line.price)+'</strong></div>').join('')+
- '<p><strong>Total '+money(lineTotal(estimate.lines))+'</strong></p>'+
- '<p class="muted">Try the customer view here. Responses update this browser’s demo job card. Live approval links will be available in the hosted app.</p>'+
- '<p class="error" role="alert"></p><div class="controls"><button class="button primary" data-choice="Approved">Approve estimate</button><button class="button" data-choice="Declined">Decline estimate</button><button class="button action" id="back-work">Back to job card</button></div></div>';
+async function shareApproval(id,version){
+ if(!confirm('Generate a customer link? This replaces any previous link for this estimate.'))return;
+ const job=model.jobs.find(j=>j.id===id);
+ const {link}=await request('staff/approval',{job:id,version});
+ dialog.innerHTML='<div class="pad"><h2 id="job-title">Send estimate for approval</h2>'+
+ '<p>Copy this private link or open an email draft. The link expires after 14 days or once the customer responds.</p>'+
+ field('Customer approval link','approvalLink',link,'readonly')+
+ '<div class="controls"><button class="button" id="copy-link">Copy link</button>'+
+ '<a class="button primary" href="'+escapeHTML(mailto(job.email,'Estimate for '+job.reg,'Hi '+job.name+',\n\nPlease review your estimate here:\n'+link+'\n\n'+model.name))+'">Open email draft</a>'+
+ '<button class="button" id="back-work">Back to job card</button></div><p role="status"></p></div>';
  dialog.querySelector('#back-work').onclick=()=>renderWork(id);
- dialog.querySelectorAll('[data-choice]').forEach(button=>button.onclick=()=>{
-  try{recordDecision(id,version,job.name,'Demo customer preview',button.dataset.choice);renderStaff();renderWork(id)}
-  catch(err){dialog.querySelector('.error').textContent=err.message}
- });
+ dialog.querySelector('#copy-link').onclick=async()=>{
+  try{await navigator.clipboard.writeText(link);dialog.querySelector('[role=status]').textContent='Link copied.'}
+  catch{dialog.querySelector('input').select();dialog.querySelector('[role=status]').textContent='Copy the selected link.'}
+ };
 }
-
 start();
 </script></body></html>

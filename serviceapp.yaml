@@ -1,16 +1,22 @@
-# Dockge stack: servicesapp
-# Reverse proxy: servicesapp.ivorydigital.uk -> http://<TrueNAS-LAN-IP>:30090
-# Reserved for the backend: /mnt/photographers_data/garageappclientdata
 services:
   servicesapp:
-    image: nginx:stable-alpine
+    build:
+      context: /mnt/apps/garageappprog
     restart: unless-stopped
+    init: true
     ports:
-      - "30090:80"
+      - "30090:8080"
+    environment:
+      PUBLIC_ORIGIN: https://servicesapp.ivorydigital.uk
+      WORKSHOP_DB: /data/workshop.sqlite3
     volumes:
       - type: bind
-        source: /mnt/apps/garageappprog/index.html
-        target: /usr/share/nginx/html/index.html
-        read_only: true
+        source: /mnt/photographers_data/garageappclientdata/workshop
+        target: /data
         bind:
           create_host_path: false
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=3).close()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
