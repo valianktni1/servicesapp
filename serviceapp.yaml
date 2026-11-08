@@ -1,0 +1,16 @@
+# Dockge stack: servicesapp
+# Reverse proxy: servicesapp.ivorydigital.uk -> http://<TrueNAS-LAN-IP>:30090
+# Reserved for the backend: /mnt/photographers_data/garageappclientdata
+services:
+  servicesapp:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports:
+      - "30090:80"
+    volumes:
+      - type: bind
+        source: /mnt/apps/garageappprog/index.html
+        target: /usr/share/nginx/html/index.html
+        read_only: true
+        bind:
+          create_host_path: false
