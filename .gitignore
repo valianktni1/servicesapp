@@ -1,3 +1,6 @@
 __pycache__/
 *.sqlite3
 *.sqlite3-*
+
+# Local mailbox configuration
+admin-smtp.json

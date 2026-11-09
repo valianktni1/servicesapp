@@ -100,6 +100,11 @@ function showLink(link){
  const card=app.querySelector('#link');
  card.hidden=false;
  card.querySelector('input').value=link;
+ const form=card.querySelector('form');
+ if(form)bind(form,async fields=>{
+  await api('admin/email-invite',{email:fields.email,token:new URL(link).hash.slice(1)});
+  form.querySelector('[role=status]').textContent='Setup email accepted by the mail server.';
+ });
  card.querySelector('button').onclick=async()=>{
   try{await navigator.clipboard.writeText(link);card.querySelector('[role=status]').textContent='Link copied.'}
   catch{card.querySelector('input').select();card.querySelector('[role=status]').textContent='Copy the selected link.'}
@@ -132,6 +137,7 @@ async function dashboard(link){
  let data;
  try{data=await api('admin')}
  catch(err){if([401,403].includes(err.status)){login();return}throw err}
+ const mail=await api('admin/email');
  app.className='';
  app.innerHTML='<div class="top">'+header('Superadmin')+'<button id="logout">Sign out</button></div>'+errorLine+
  '<section class="card"><h2>Add a garage</h2><form id="create"><div class="grid">'+
@@ -140,10 +146,21 @@ async function dashboard(link){
  '<label>Access type<select name="mode"><option value="trial">14-day trial</option><option value="paid">Paid</option><option value="complimentary">Complimentary</option></select></label>'+
  input('Complimentary end date (optional)','expiry','type="date"')+'</div>'+
  '<p class="muted">The garage code becomes part of the public booking address.</p>'+button('Create garage and setup link','create',true)+errorLine+'</form></section>'+
+ '<section class="card"><h2>Workshop Desk email</h2>'+
+ (mail.sender?'<p>Sending from <strong>'+esc(mail.sender)+'</strong>.</p><form id="smtp-test"><div class="grid">'+
+ input('Test recipient','email','type="email" required maxlength="200"')+'</div>'+button('Send test email','test')+errorLine+'<p role="status"></p></form>':
+ '<p>SMTP is awaiting setup. Run <code>python server.py set-admin-smtp</code> in the Workshop Desk container to connect your mailbox.</p>')+'</section>'+
  '<section class="card" id="link" hidden><h2>Private setup link</h2><p>Copy this link and send it to the garage owner. It expires in seven days or after use.</p>'+
- input('Setup link','link','readonly')+'<button>Copy link</button> <span role="status"></span></section>'+
+ input('Setup link','link','readonly')+'<button>Copy link</button> <span role="status"></span>'+
+ (mail.sender?'<form><div class="grid">'+input('Garage owner email','email','type="email" required maxlength="200"')+
+ '</div>'+button('Send setup email','invite',true)+errorLine+'<p role="status"></p></form>':'')+'</section>'+
  (data.garages.map(garageCard).join('')||'<p class="muted">No garages yet.</p>');
  logout();
+ const test=app.querySelector('#smtp-test');
+ if(test)bind(test,async fields=>{
+  await api('admin/test-email',fields);
+  test.querySelector('[role=status]').textContent='Test email accepted by the mail server.';
+ });
  const create=app.querySelector('#create');
  const expiry=create.elements.expiry;
  expiry.disabled=true;

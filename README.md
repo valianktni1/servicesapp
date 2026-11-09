@@ -47,3 +47,15 @@ Create a garage and copy its seven-day, single-use setup link to send to the own
 The garage owner signs in at the homepage. The public booking page is `/book/<garage-code>`. Staff can copy an estimate approval link or open a draft in their email app. Reminders can also be sent from drafts and marked as sent. SMTP settings are saved for reference. Direct SMTP delivery, scheduled emails and online payment processing require further integration.
 
 The old demo stored sample records in the browser. New garage workspaces start empty. The server database lives in the client-data dataset under `workshop/`.
+
+## Send setup emails from Superadmin
+
+Run this in the deployed container through the TrueNAS shell:
+
+```sh
+docker exec -it "$(docker ps -q --filter label=com.docker.compose.project=servicesapp --filter label=com.docker.compose.service=servicesapp)" python server.py set-admin-smtp
+```
+
+Enter the SMTP host, encryption, port, sender, username and password or app password supplied by your mailbox provider. The password prompt is hidden. The settings are kept in an owner-readable file on the app data mount. Treat that file and any backups containing it as credentials.
+
+Refresh Superadmin, send a test email to yourself, then generate a garage setup link and choose **Send setup email**. Acceptance by the SMTP server confirms submission, and you can check the inbox for delivery. Workshop reminders and estimate emails still use drafts.

@@ -7,12 +7,16 @@ import json
 import os
 import re
 import secrets
+import smtplib
+import ssl
+import tempfile
 import sqlite3
 import threading
 import time
 from contextlib import contextmanager
 from datetime import date, datetime, timedelta
 from decimal import Decimal, InvalidOperation
+from email.message import EmailMessage
 from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -126,6 +130,70 @@ def email_field(data):
     if not EMAIL.fullmatch(email):
         raise Problem(400, "Enter a valid email address.")
     return email
+
+
+def smtp_config():
+    try:
+        return json.loads(DB.with_name("admin-smtp.json").read_text())
+    except FileNotFoundError:
+        return None
+
+
+def setup_smtp():
+    host = input("SMTP server hostname: ").strip()
+    if not re.fullmatch(r"[A-Za-z0-9.-]{1,253}", host):
+        raise SystemExit("Enter an SMTP hostname without a scheme or port.")
+    mode = input("Encryption [starttls/tls, default starttls]: ").strip().lower() or "starttls"
+    if mode not in ("starttls", "tls"):
+        raise SystemExit("Choose starttls or tls.")
+    try:
+        port = int(input("SMTP port [Enter for default]: ").strip() or (465 if mode == "tls" else 587))
+        if not 1 <= port <= 65535:
+            raise ValueError()
+        sender = email_field({"email": input("From email: ").strip()})
+    except (ValueError, Problem):
+        raise SystemExit("Enter a valid port and sender email.") from None
+    username = input("SMTP username [Enter for sender email]: ").strip() or sender
+    password = getpass.getpass("SMTP password or app password: ")
+    if not password:
+        raise SystemExit("An SMTP password is required.")
+    path = DB.with_name("admin-smtp.json")
+    fd, tmp = tempfile.mkstemp(prefix=".admin-smtp-", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w") as handle:
+            json.dump(dict(host=host, mode=mode, port=port, sender=sender,
+                           username=username, password=password), handle)
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+    print("SMTP settings saved. Use Send test email in Superadmin to check delivery.")
+
+
+def send_admin_email(config, recipient, subject, body):
+    message = EmailMessage()
+    message["From"] = config["sender"]
+    message["To"] = recipient
+    message["Subject"] = subject
+    message.set_content(body)
+    context = ssl.create_default_context()
+    try:
+        if config["mode"] == "tls":
+            client = smtplib.SMTP_SSL(config["host"], config["port"], timeout=12, context=context)
+        else:
+            client = smtplib.SMTP(config["host"], config["port"], timeout=12)
+        try:
+            if config["mode"] == "starttls":
+                client.starttls(context=context)
+            client.login(config["username"], config["password"])
+            client.send_message(message)
+        finally:
+            # Once DATA succeeds, a disconnect during shutdown must not report a failed send.
+            client.close()
+    except smtplib.SMTPAuthenticationError:
+        raise Problem(502, "The mail provider rejected the SMTP sign-in. Check the username and password.") from None
+    except (OSError, smtplib.SMTPException):
+        raise Problem(502, "The SMTP server could not accept the email. Check the connection and mailbox settings.") from None
 
 
 def date_field(value):
@@ -449,6 +517,38 @@ class Handler(BaseHTTPRequestHandler):
                 user = self.actor(conn)
                 garage = row_for(conn, user["garage"])
                 return {"name": garage["name"], "access": access(garage)}, None
+        if len(route) == 2 and route[0] == "admin" and route[1] in ("email", "test-email", "email-invite"):
+            with database() as conn:
+                self.actor(conn, admin=True)
+            action = route[1]
+            if post != (action != "email"):
+                raise Problem(405, "Method not allowed.")
+            config = smtp_config()
+            if action == "email":
+                return {"sender": config["sender"] if config else None}, None
+            if not config:
+                raise Problem(409, "Set up the superadmin SMTP mailbox first.")
+            recipient = email_field(data)
+            if action == "test-email":
+                subject = "Workshop Desk SMTP test"
+                body = "Workshop Desk sent this test through your configured SMTP mailbox."
+            else:
+                token = text_field(data, "token", 43)
+                if not TOKEN.fullmatch(token):
+                    raise Problem(400, "Generate a valid setup link first.")
+                with database() as conn:
+                    garage = conn.execute("""SELECT garages.name FROM invites JOIN garages
+                        ON garages.slug=invites.garage WHERE token=? AND invites.expires>? AND garages.joined IS NULL""",
+                        (digest(token), int(time.time()))).fetchone()
+                if not garage:
+                    raise Problem(410, "This setup link has expired, been replaced or already been used.")
+                subject = "Set up your Workshop Desk account"
+                body = ("Hi,\n\nYour Workshop Desk account is ready to set up for " + garage["name"] +
+                        ". Open this private link to choose your sign-in details:\n\n" + ORIGIN + "/setup#" + token +
+                        "\n\nThe link can be used once and expires seven days after it was created.\n\nThanks,\nIvory Digital")
+            self.throttle(("admin:email", 30))
+            send_admin_email(config, recipient, subject, body)
+            return {"accepted": True}, None
         if route[0] == "admin":
             with database(post) as conn:
                 self.actor(conn, admin=True)
@@ -674,11 +774,13 @@ class Handler(BaseHTTPRequestHandler):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("serve", "set-admin-password"))
+    parser.add_argument("command", choices=("serve", "set-admin-password", "set-admin-smtp"))
     args = parser.parse_args()
     os.umask(0o077)
     initialise()
-    if args.command == "set-admin-password":
+    if args.command == "set-admin-smtp":
+        setup_smtp()
+    elif args.command == "set-admin-password":
         password = getpass.getpass(f"Password for {ADMIN_EMAIL}: ")
         if not password_ok(password) or password != getpass.getpass("Confirm password: "):
             parser.error("Use a matching password with 8 to 128 characters and at least one special character.")
