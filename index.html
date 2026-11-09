@@ -11,6 +11,12 @@
 
 .print-document h2,.print-document h3{margin:8px 0}.print-document .table{margin:16px 0}
 @media print{body:has(.print-document) #app{display:none}body:has(.print-document){background:white;overflow:visible}dialog:has(.print-document)[open]{display:block;position:static;width:100%;max-width:none;max-height:none;overflow:visible;border:0;margin:0;padding:0}dialog:has(.print-document)::backdrop{display:none}.print-document .no-print{display:none}.print-document .table{overflow:visible}.print-document tr{break-inside:avoid}}
+.booking-recap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;margin:12px 0 16px}
+.booking-recap small{display:block;color:var(--muted)}.booking-recap .button{white-space:nowrap}
+.booking-help{margin:8px 0 12px}.booking-help:empty,#retry-slots[hidden]{display:none}
+.booking-accounts{margin:12px 0}.booking-accounts summary{cursor:pointer;font-weight:700;padding:8px 0}
+.stat-button{text-align:left;color:inherit;font:inherit;cursor:pointer}.stat-button:hover{border-color:var(--accent)}
+@media(max-width:580px){.job-list table,.job-list tbody,.job-list tr,.job-list td{display:block;width:100%;min-width:0}.job-list thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.job-list tbody tr{padding:12px;border-bottom:1px solid var(--line)}.job-list tbody td{border:0;padding:3px 0;white-space:normal}.job-list tbody td:last-child{padding-top:10px}.job-list tbody td:last-child button{min-height:42px}}
 </style></head><body><div id="app"></div><dialog id="dialog"></dialog>
 <script>
 'use strict';
@@ -424,7 +430,16 @@ async function save(job){
 const brand='<div class="brand"><span class="mark" aria-hidden="true"><span class="flag"></span></span><span>Workshop Desk</span></div>';
 function renderStaff(){
  app.innerHTML='<div class="shell"><aside>'+brand+'<div class="nav" aria-label="Workshop navigation">'+Object.keys(icons).map(n=>'<button data-nav="'+n+'" aria-current="'+(page===n)+'">'+icon(n)+n+'</button>').join('')+'</div><div class="side-foot"><div>Ivory Digital</div><div class="side-note">Garage booking software</div></div></aside><main class="workspace"><header class="top"><strong>'+escapeHTML(model.name)+'</strong><div class="controls"><a href="'+escapeHTML(siteLink)+'">Customer booking page ↗</a><button class="button" id="reload-diary">Refresh</button><button class="button" id="sign-out">Sign out</button></div></header><div class="inner" id="main"></div></main></div>';
- app.querySelector('#reload-diary').onclick=()=>location.reload();
+ app.querySelector('#reload-diary').onclick=async event=>{
+  const button=event.currentTarget;
+  button.disabled=true;
+  try{
+   model=normalise(await request('staff'));
+   savedModel=structuredClone(model);
+   renderStaff();
+   document.querySelector('#reload-diary').focus();
+  }catch(err){alert(err.message);button.disabled=false}
+ };
  app.querySelector('#sign-out').onclick=async()=>{await request('logout',{});location.replace('/')};
  app.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{page=b.dataset.nav;query='';renderStaff()});
  const main=document.querySelector('#main');
@@ -435,7 +450,7 @@ function renderStaff(){
 }
 function jobTable(list){
  if(!list.length)return '<p class="empty">No bookings match this view.</p>';
- return '<div class="table"><table><thead><tr><th>Arrival</th><th>Vehicle</th><th>Work booked</th><th>Customer</th><th>Status</th><th>Job</th></tr></thead><tbody>'+list.map(j=>'<tr><td><strong>'+escapeHTML(j.time)+'</strong><small>'+escapeHTML(dateText(j.date))+'</small></td><td><span class="plate">'+plate(j.reg)+'</span><small>'+escapeHTML(j.vehicle)+'</small></td><td><strong>'+escapeHTML(j.service)+'</strong><small>'+escapeHTML(j.bay||'')+' · '+j.length+' min</small></td><td>'+escapeHTML(j.name)+'</td><td><span class="pill '+escapeHTML(j.status.split(' ')[0])+'">'+escapeHTML(j.status)+'</span>'+((j.parts||[]).some(p=>['To order','Ordered'].includes(p.status))?'<small>Parts waiting</small>':'')+'</td><td><button class="button action" data-job="'+escapeHTML(j.id)+'">Booking</button> <button class="button action" data-work="'+escapeHTML(j.id)+'">Job card</button></td></tr>').join('')+'</tbody></table></div>';
+ return '<div class="table job-list"><table><thead><tr><th>Arrival</th><th>Vehicle</th><th>Work booked</th><th>Customer</th><th>Status</th><th>Job</th></tr></thead><tbody>'+list.map(j=>'<tr><td><strong>'+escapeHTML(j.time)+'</strong><small>'+escapeHTML(dateText(j.date))+'</small></td><td><span class="plate">'+plate(j.reg)+'</span><small>'+escapeHTML(j.vehicle)+'</small></td><td><strong>'+escapeHTML(j.service)+'</strong><small>'+escapeHTML(j.bay||'')+' · '+j.length+' min</small></td><td>'+escapeHTML(j.name)+'</td><td><span class="pill '+escapeHTML(j.status.split(' ')[0])+'">'+escapeHTML(j.status)+'</span>'+((j.parts||[]).some(p=>['To order','Ordered'].includes(p.status))?'<small>Parts waiting</small>':'')+'</td><td><button class="button action" data-job="'+escapeHTML(j.id)+'">Booking</button> <button class="button action" data-work="'+escapeHTML(j.id)+'">Job card</button></td></tr>').join('')+'</tbody></table></div>';
 }
 const ordered=list=>[...list].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
 function bindJobs(parent){
@@ -444,10 +459,24 @@ function bindJobs(parent){
 }
 function renderDiary(){
  const daily=model.jobs.filter(j=>j.date===day);
- const counts=[['Bookings',daily.filter(j=>!isClosed(j)).length,'On the selected date'],['Awaiting confirmation',daily.filter(j=>j.status==='Requested').length,'Online requests to review'],['In the workshop',daily.filter(j=>['Checked in','In progress','Awaiting approval'].includes(j.status)).length,'Vehicles currently on site'],['Ready to collect',daily.filter(j=>j.status==='Ready to collect').length,'Jobs ready for handover']];
- document.querySelector('#content').innerHTML='<div class="stats">'+counts.map(([k,v,s])=>'<div class="stat"><span>'+k+'</span><strong>'+v+'</strong><small>'+s+'</small></div>').join('')+'</div><div class="panel"><div class="bar"><div><h2>'+escapeHTML(scope==='day'?dateText(day):'All bookings')+'</h2>'+(!opening(day)&&scope==='day'?'<small>Closed for new bookings</small>':'')+'</div><div class="controls"><button class="button" id="prev" aria-label="Previous day">‹</button><input type="date" id="date" aria-label="Diary date" value="'+day+'"><button class="button" id="next" aria-label="Next day">›</button><button class="button" id="today">Today</button><button class="button" id="scope">'+(scope==='day'?'All dates':'Selected date')+'</button></div></div><div class="bar"><div class="controls"><input class="search" id="search" type="search" aria-label="Search bookings" placeholder="Search reg, name or job" value="'+escapeHTML(query)+'"><select id="status" aria-label="Filter by status"><option value="">All statuses</option>'+states.map(s=>'<option '+(s===filter?'selected':'')+'>'+s+'</option>').join('')+'</select></div></div><div id="results"></div></div>';
+ const counts=[['Bookings',daily.filter(j=>!isClosed(j)).length,'On the selected date'],['Awaiting confirmation',model.jobs.filter(j=>j.status==='Requested').length,'Review requests across all dates','Requested'],['In the workshop',daily.filter(j=>['Checked in','In progress','Awaiting approval'].includes(j.status)).length,'Vehicles currently on site'],['Ready to collect',daily.filter(j=>j.status==='Ready to collect').length,'Jobs ready for handover']];
+ document.querySelector('#content').innerHTML='<div class="stats">'+counts.map(([label,count,detail,status])=>{
+  const content='<span>'+label+'</span><strong>'+count+'</strong><small>'+detail+'</small>';
+  return status?'<button class="stat stat-button" id="review-requests">'+content+'</button>':'<div class="stat">'+content+'</div>';
+ }).join('')+'</div><div class="panel"><div class="bar"><div><h2>'+escapeHTML(scope==='day'?dateText(day):'All bookings')+'</h2>'+(!opening(day)&&scope==='day'?'<small>Closed for new bookings</small>':'')+'</div><div class="controls"><button class="button" id="prev" aria-label="Previous day">‹</button><input type="date" id="date" aria-label="Diary date" value="'+day+'"><button class="button" id="next" aria-label="Next day">›</button><button class="button" id="today">Today</button><button class="button" id="scope">'+(scope==='day'?'All dates':'Selected date')+'</button></div></div><div class="bar"><div class="controls"><input class="search" id="search" type="search" aria-label="Search bookings" placeholder="Search reg, name or job" value="'+escapeHTML(query)+'"><select id="status" aria-label="Filter by status"><option value="">All statuses</option>'+states.map(s=>'<option '+(s===filter?'selected':'')+'>'+s+'</option>').join('')+'</select></div></div><div id="results"></div></div>';
  const results=document.querySelector('#results');
- const refresh=()=>{const q=query.toLowerCase().replace(/\s/g,'');results.innerHTML=jobTable(ordered((scope==='day'?daily:model.jobs).filter(j=>(!filter||j.status===filter)&&[j.name,j.reg,j.vehicle,j.service,j.id].join(' ').toLowerCase().replace(/\s/g,'').includes(q))));bindJobs(results)};
+ const refresh=()=>{
+  const q=query.toLowerCase().replace(/\s/g,'');
+  const allDates=scope==='all'||Boolean(q);
+  const list=(allDates?model.jobs:daily).filter(j=>(!filter||j.status===filter)&&
+   [j.name,j.reg,j.vehicle,j.service,j.id].join(' ').toLowerCase().replace(/\s/g,'').includes(q));
+  results.innerHTML=(q?'<p class="muted pad">Searching across all dates</p>':'')+jobTable(ordered(list));
+  bindJobs(results);
+ };
+ document.querySelector('#review-requests').onclick=()=>{
+  scope='all';filter='Requested';query='';renderDiary();
+  document.querySelector('#status').focus();
+ };
  const setDate=d=>{if(!d)return;day=d;scope='day';renderDiary()};
  document.querySelector('#prev').onclick=()=>setDate(advance(day,-1));
  document.querySelector('#next').onclick=()=>setDate(advance(day,1));
@@ -492,23 +521,46 @@ const field=(label,name,value='',opts='')=>'<label>'+label+'<input name="'+name+
 const area=(label,name,value='')=>'<label class="wide">'+label+'<textarea name="'+name+'" maxlength="1000">'+escapeHTML(value)+'</textarea></label>';
 const contact=j=>field('Registration','reg',j.reg,'required maxlength="12" autocapitalize="characters" placeholder="AB12 CDE"')+field('Make and model','vehicle',j.vehicle,'required maxlength="100" placeholder="Ford Fiesta"')+field('Full name','name',j.name,'required maxlength="100" autocomplete="name"')+field('Mobile or landline','phone',j.phone,'required type="tel" maxlength="30" autocomplete="tel"')+field('Email','email',j.email,'required type="email" maxlength="200" autocomplete="email"');
 const formJob=f=>{const data=new FormData(f);const j=Object.fromEntries(['date','time','service','status','reg','vehicle','name','phone','email','notes','staffNotes'].filter(key=>data.has(key)).map(key=>[key,data.get(key)]));j.reg=j.reg.toUpperCase().replace(/\s/g,'');if(!/^[A-Z0-9]{2,8}$/.test(j.reg))throw Error('Enter a valid registration, for example AB12 CDE.');if(!/^[+0-9().\s-]+$/.test(j.phone)||j.phone.replace(/\D/g,'').length<7)throw Error('Enter a valid phone number.');return j};
+const slotRequests=new WeakMap();
 async function fillTimes(f,service,date,old,showOld=false){
+ const pending=Symbol();
+ slotRequests.set(f,pending);
+ const current=()=>slotRequests.get(f)===pending&&f.elements.date?.value===date&&f.elements.service?.value===service;
  const select=f.elements.time;
  select.disabled=true;select.innerHTML='<option value="">Checking times…</option>';
  try{
   let times=date?(staff?slots(date,service,old?.id):(await request('slots?'+new URLSearchParams({date,service}))).times):[];
-  if(f.elements.date.value!==date||f.elements.service.value!==service)return;
+  if(!current())return;
   if(showOld&&old&&!times.includes(old.time))times=[old.time,...times].sort();
   select.innerHTML='<option value="">'+(times.length?'Choose a time':'No times available')+'</option>'+optionList(times,showOld?old?.time:undefined);
- }catch(e){select.innerHTML='<option value="">'+escapeHTML(e.message)+'</option>'}
+ }catch(e){
+  if(!current())return;
+  select.innerHTML='<option value="">Could not load times</option>';
+  select.disabled=false;
+  return {error:e.message};
+ }
  select.disabled=false;
+ return {count:select.options.length-1};
 }
 function edit(existing){
  const j=existing||{date:day<today()?today():day,service:'MOT test',status:'Confirmed'};
- dialog.innerHTML='<div class="pad"><div class="dialog-head"><div><p class="eyebrow">'+(existing?escapeHTML(j.id)+' · '+escapeHTML(j.source):'Service reception')+'</p><h2 id="job-title">'+(existing?'Booking details':'Add a booking')+'</h2></div><button class="button action" id="close">Close</button></div><form id="job-form"><div class="fields"><label>Service<select name="service">'+optionList(Object.keys(services),j.service)+'</select></label><label>Status<select name="status">'+optionList(states,j.status)+'</select></label>'+field('Date','date',j.date,'required type="date"')+'<label>Arrival time<select name="time" required></select></label>'+contact(j)+area('Customer notes','notes',j.notes)+area('Workshop notes (staff only)','staffNotes',j.staffNotes)+'</div><div id="job-accounts"></div><p class="error" role="alert"></p><div class="controls"><button class="button primary" type="submit" value="booking">Save booking</button><button class="button" type="submit" value="work">Save and open job card</button></div></form></div>';
+ dialog.innerHTML='<div class="pad"><div class="dialog-head"><div><p class="eyebrow">'+(existing?escapeHTML(j.id)+' · '+escapeHTML(j.source):'Service reception')+'</p><h2 id="job-title">'+(existing?'Booking details':'Add a booking')+'</h2></div><button class="button action" id="close">Close</button></div><form id="job-form"><div class="fields"><label>Service<select name="service">'+optionList(Object.keys(services),j.service)+'</select></label><label>Status<select name="status">'+optionList(states,j.status)+'</select></label>'+field('Date','date',j.date,'required type="date"')+'<label>Arrival time<select name="time" required></select></label>'+contact(j)+area('Customer notes','notes',j.notes)+area('Workshop notes (staff only)','staffNotes',j.staffNotes)+'</div><details class="booking-accounts" id="accounts"><summary>Costs, parts and payments</summary><div id="job-accounts"></div></details><p class="error" role="alert"></p><div class="controls"><button class="button primary" type="submit" value="booking">Save booking</button><button class="button" type="submit" value="work">Save and open job card</button>'+(existing?'<button class="button action" id="open-job-card" type="button">Open job card</button>':'')+'</div></form></div>';
  dialog.setAttribute('aria-labelledby','job-title');
  const f=dialog.querySelector('form');
  jobAccounts(f,j);
+ const accounts=f.querySelector('#accounts');
+ f.addEventListener('invalid',event=>{if(accounts.contains(event.target))accounts.open=true},true);
+ const snapshot=()=>JSON.stringify(Array.from(f.elements)
+  .filter(input=>input.name&&input.name!=='time')
+  .map(input=>[input.name,input.value]).concat([['time',f.elements.time.value]]));
+ let baseline;
+ const openCard=f.querySelector('#open-job-card');
+ if(openCard){
+  openCard.disabled=true;
+  openCard.onclick=()=>{
+   if(snapshot()===baseline||confirm('Open the job card without saving these booking changes?'))renderWork(j.id);
+  };
+ }
  const refresh=()=>fillTimes(f,f.elements.service.value,f.elements.date.value,existing,existing?.service===f.elements.service.value&&existing?.date===f.elements.date.value);
  f.elements.date.onchange=refresh;f.elements.service.onchange=refresh;
  dialog.querySelector('#close').onclick=()=>dialog.close();
@@ -525,33 +577,83 @@ function edit(existing){
   const prior=ordered(model.jobs.filter(job=>job.reg===reg)).at(-1);
   if(prior)for(const name of ['vehicle','name','phone','email'])if(!f.elements[name].value)f.elements[name].value=prior[name]||'';
  });
- if(!dialog.open)dialog.showModal();refresh();
+ if(!dialog.open)dialog.showModal();
+ refresh().then(()=>{
+  if(openCard){baseline=snapshot();openCard.disabled=false}
+ });
 }
 function renderPublic(){
- app.innerHTML='<div class="public-nav"><header class="top">'+brand+'</header></div><main class="public"><section class="public-intro"><p class="eyebrow hero-label">'+escapeHTML(model.name)+'</p><h1>Book your car in</h1><p>Choose the work you need and a time to drop off your vehicle.</p></section><div class="split"><section class="panel pad"><form id="booking"><div id="steps"></div><p class="error" role="alert"></p></form></section><aside class="panel pad" style="background:white;color:var(--ink);gap:12px;align-self:start"><h2>Your visit</h2><div class="summary" id="summary"></div><p class="muted">Please leave your keys at reception when you arrive. For repairs or diagnostics, we’ll discuss the work and price with you before going ahead.</p></aside></div></main>';
+ app.innerHTML='<div class="public-nav"><header class="top">'+brand+'</header></div><main class="public"><section class="public-intro"><p class="eyebrow hero-label">'+escapeHTML(model.name)+'</p><h1>Book your car in</h1><p>Choose a service and drop-off time, then leave your contact details. The garage will confirm your request.</p></section><section class="panel pad"><form id="booking"><div id="steps"></div><p class="error" role="alert"></p></form></section></main>';
  let step=1;
  const draft={service:'MOT test',date:model.firstDate||today(),time:'',reg:'',vehicle:'',name:'',phone:'',email:'',notes:''};
- const f=document.querySelector('#booking'), content=f.querySelector('#steps');
- const summary=()=>{const s=services[draft.service];document.querySelector('#summary').innerHTML='<strong>'+escapeHTML(draft.service)+'</strong><div>'+escapeHTML(priceLabel(draft.service))+' · '+s.length+' min reserved</div>'+(draft.time?'<div>'+escapeHTML(dateText(draft.date))+' · '+escapeHTML(draft.time)+'</div>':'')};
- const sync=()=>{Object.assign(draft,Object.fromEntries(new FormData(f)));summary()};
+ const f=document.querySelector('#booking'),content=f.querySelector('#steps'),error=f.querySelector('.error');
+ const recap=()=>'<div class="booking-recap"><div><strong>'+escapeHTML(draft.service)+'</strong><small>'+
+  escapeHTML(dateText(draft.date)+' · '+draft.time+' drop-off · '+priceLabel(draft.service))+'</small></div></div>';
+ const sync=()=>Object.assign(draft,Object.fromEntries(new FormData(f)));
+ const showStep=(next,message='')=>{
+  step=next;render();error.textContent=message;content.querySelector('h2').focus();
+ };
  const render=()=>{
-  f.querySelector('.error').textContent='';
-  content.innerHTML=step===1?'<p class="step">Step 1 of 2</p><h2>Choose your service</h2><div class="services" style="margin-top:12px">'+Object.entries(services).map(([name,s])=>'<label class="choice"><input type="radio" name="service" value="'+escapeHTML(name)+'" '+(name===draft.service?'checked':'')+'><strong>'+escapeHTML(name)+'</strong><small>'+escapeHTML(priceLabel(name))+' · '+escapeHTML(s.description)+'</small></label>').join('')+'</div><div class="fields">'+field('Drop-off date','date',draft.date,'required type="date" min="'+today()+'" max="'+advance(today(),90)+'"')+'<label>Drop-off time<select name="time" required></select></label></div><button class="button primary" type="submit">Continue</button>':'<p class="step">Step 2 of 2</p><h2>Vehicle and contact details</h2><div class="fields">'+contact(draft)+area('Anything we should know?','notes',draft.notes)+'</div><div class="controls"><button id="back" class="button" type="button">Back</button><button class="button primary" type="submit">Request booking</button></div>';
-  if(step===1){
-   const update=async()=>{const last=draft.time;await fillTimes(f,draft.service,draft.date);if(Array.from(f.elements.time.options).some(o=>o.value===last))f.elements.time.value=last;draft.time=f.elements.time.value;summary()};
-   f.elements.service.forEach(r=>r.onchange=()=>{sync();update()});f.elements.date.onchange=()=>{sync();update()};f.elements.time.onchange=sync;update();
-  }else document.querySelector('#back').onclick=()=>{sync();step=1;render()};
-  summary();
+  error.textContent='';
+  if(step===2){
+   content.innerHTML='<p class="step">Step 2 of 2</p><h2 tabindex="-1">Vehicle and contact details</h2>'+recap()+
+    '<button id="back" class="button action" type="button">Change service or time</button>'+
+    '<div class="fields">'+contact(draft)+area('Anything we should know?','notes',draft.notes)+'</div>'+
+    '<button class="button primary" type="submit">Request booking</button>';
+   f.querySelector('#back').onclick=()=>{sync();showStep(1)};
+   return;
+  }
+  content.innerHTML='<p class="step">Step 1 of 2</p><h2 tabindex="-1">Choose a service and drop-off time</h2><div class="services" style="margin-top:12px">'+
+   Object.entries(services).map(([name,service])=>'<label class="choice"><input type="radio" name="service" value="'+escapeHTML(name)+'" '+(name===draft.service?'checked':'')+
+   '><strong>'+escapeHTML(name)+'</strong><small>'+escapeHTML(priceLabel(name))+' · '+escapeHTML(service.description)+'</small></label>').join('')+
+   '</div><div class="fields">'+field('Drop-off date','date',draft.date,'required type="date" min="'+today()+'" max="'+advance(today(),90)+'"')+
+   '<label>Drop-off time<select name="time" required></select></label></div><p id="slot-status" class="muted booking-help" role="status"></p>'+
+   '<div class="controls"><button class="button primary" type="submit" disabled>Continue to your details</button>'+
+   '<button class="button action" id="retry-slots" type="button" hidden>Try loading times again</button></div>';
+  const next=f.querySelector('[type=submit]'), status=f.querySelector('#slot-status'),retry=f.querySelector('#retry-slots');
+  const update=async()=>{
+   const {service,date,time}=draft;
+   next.disabled=true;retry.hidden=true;status.textContent='Checking available times…';
+   const result=await fillTimes(f,service,date);
+   if(!result||!next.isConnected)return;
+   const select=f.elements.time;
+   if(Array.from(select.options).some(option=>option.value===time))select.value=time;
+   draft.time=select.value;
+   next.disabled=!draft.time;
+   status.textContent=result.error?'Could not load available times. Please try again.':
+    !date?'Choose a drop-off date.':result.count?'':'No times are available. Try another date or service.';
+   retry.hidden=!result.error;
+  };
+  const change=()=>{draft.service=f.elements.service.value;draft.date=f.elements.date.value;update()};
+  for(const radio of f.elements.service)radio.onchange=change;
+  f.elements.date.onchange=change;
+  f.elements.time.onchange=()=>{draft.time=f.elements.time.value;next.disabled=!draft.time};
+  retry.onclick=update;
+  update();
  };
  f.onsubmit=async e=>{
   e.preventDefault();
-  if(step===1){if(!f.elements.time.value)return;sync();step=2;render();f.querySelector('input').focus();return}
-  const button=f.querySelector('[type=submit]');button.disabled=true;
+  if(step===1){
+   if(!f.elements.time.value)return;
+   sync();showStep(2);return;
+  }
+  const button=f.querySelector('[type=submit]'),back=f.querySelector('#back');
+  if(button.disabled)return;
+  button.disabled=true;back.disabled=true;error.textContent='';
+  sync();
   try{
    const job=await save({...draft,...formJob(f),status:'Requested'});
-   f.innerHTML='<p class="eyebrow">Booking reference</p><h2>Request received</h2><p class="ok">'+escapeHTML(job.id)+'</p><p class="muted">The garage has received your request and will confirm your booking.</p><div class="rule"></div><button class="button" type="button" id="again">Make another booking</button>';
+   f.onsubmit=e=>e.preventDefault();
+   content.innerHTML='<h2 tabindex="-1">Request received</h2><p>Booking reference <strong>'+escapeHTML(job.id)+'</strong></p>'+recap()+
+    '<p class="muted">The garage has received your request and will confirm your booking.</p>'+
+    '<p class="muted">Please leave your keys at reception when you arrive. For repairs or diagnostics, the garage will discuss the work and price with you first.</p>'+
+    '<button class="button" type="button" id="again">Make another booking</button>';
    f.querySelector('#again').onclick=renderPublic;
-  }catch(err){f.querySelector('.error').textContent=err.message;button.disabled=false}
+   content.querySelector('h2').focus();
+  }catch(err){
+   if(err.status===409){draft.time='';showStep(1,'That time was taken while you were booking. Choose another time. Your details are still saved here.');return}
+   error.textContent=err.message;button.disabled=false;back.disabled=false;
+  }
  };
  render();
 }
